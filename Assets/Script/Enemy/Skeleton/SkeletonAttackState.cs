@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SkeletonAttackState : EnemyState
 {
-    private Enemy_Skeleton skeleton;
-    public SkeletonAttackState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, Enemy_Skeleton _skeleton) : base(_enemy, _stateMachine, animBoolName)
+    private Skeleton_Enemy skeleton;
+    public SkeletonAttackState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, Skeleton_Enemy _skeleton) : base(_enemy, _stateMachine, animBoolName)
     {
         this.skeleton = _skeleton;
     }

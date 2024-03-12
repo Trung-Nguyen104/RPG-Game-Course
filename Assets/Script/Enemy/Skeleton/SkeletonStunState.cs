@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SkeletonStunState : EnemyState
 {
-    private Enemy_Skeleton skeleton;
+    private Skeleton_Enemy skeleton;
     private float stunForce;
-    public SkeletonStunState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, Enemy_Skeleton _skeleton) : base(_enemy, _stateMachine, animBoolName)
+    public SkeletonStunState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, Skeleton_Enemy _skeleton) : base(_enemy, _stateMachine, animBoolName)
     {
         this.skeleton = _skeleton;
     }

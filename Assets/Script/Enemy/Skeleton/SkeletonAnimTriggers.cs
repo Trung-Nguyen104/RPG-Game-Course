@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkeletonAnimTriggers : MonoBehaviour
 {
-    private Enemy_Skeleton skeleton => GetComponentInParent<Enemy_Skeleton>();
+    private Skeleton_Enemy skeleton => GetComponentInParent<Skeleton_Enemy>();
 
     private void AnimationTrigger()
     {

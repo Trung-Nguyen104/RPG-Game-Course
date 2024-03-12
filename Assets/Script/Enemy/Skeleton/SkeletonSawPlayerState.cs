@@ -5,9 +5,9 @@ using UnityEngine;
 public class SkeletonSawPlayerState : EnemyState
 {
     private Transform player;
-    private Enemy_Skeleton skeleton;
+    private Skeleton_Enemy skeleton;
     private int moveDir;
-    public SkeletonSawPlayerState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, Enemy_Skeleton _skeleton) : base(_enemy, _stateMachine, animBoolName)
+    public SkeletonSawPlayerState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, Skeleton_Enemy _skeleton) : base(_enemy, _stateMachine, animBoolName)
     {
         this.skeleton = _skeleton;
     }
