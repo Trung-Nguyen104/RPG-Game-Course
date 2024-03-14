@@ -6,7 +6,7 @@ public class PlayerAnimTriggers : MonoBehaviour
 {
     private Player player => GetComponentInParent<Player>();
     private Enemy enemy;
-    
+
     private void AnimationTrigger()
     {
         player.AnimationTrigger();
@@ -16,15 +16,20 @@ public class PlayerAnimTriggers : MonoBehaviour
     {
         Collider2D[] attackCollider = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
 
-        foreach(var hit in attackCollider)
+        foreach (var hit in attackCollider)
         {
             if (hit.GetComponent<Enemy>() != null)
             {
                 enemy = hit.GetComponent<Enemy>();
-                if(!enemy.CanBeStun())
+                if (!enemy.CanBeStun())
                     hit.GetComponent<Enemy>().Damage();
             }
         }
 
+    }
+
+    private void ThrowSword()
+    {
+        SkillManager.Instance.throwSword.CreateSword();
     }
 }

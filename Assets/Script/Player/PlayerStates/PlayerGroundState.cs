@@ -28,7 +28,10 @@ public class PlayerGroundState : PlayerState
         if (!player.GroundDetected())
             playerStateMachine.ChangeState(player.airState);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && player.GroundDetected())
+        if (Input.GetKeyDown(KeyCode.UpArrow) && player.GroundDetected() && !isBusy)
             playerStateMachine.ChangeState(player.jumpState);
+
+        if(Input.GetKeyDown(KeyCode.H))
+            playerStateMachine.ChangeState(player.aimState);
     }
 }

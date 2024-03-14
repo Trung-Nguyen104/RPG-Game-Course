@@ -11,14 +11,13 @@ public class Player : Entity
     [Header("Dash Asbility")]
     [SerializeField] public float dashSpeed;
     [SerializeField] public float dashDuration;
-    [SerializeField] private float dashCoolDown;
 
     [Header("Attack")]
     [SerializeField] public Vector2[] attackMovement;
 
     public float dashDir { get; private set; }
+    public SkillManager skillManager { get; private set; }
     private bool doubleJump;
-    private float dashTimer;
 
     #region State
     public PlayerStateMachine playerStateMachine { get; private set; }
@@ -29,7 +28,9 @@ public class Player : Entity
     public PlayerDashState dashState { get; private set; }
     public PlayerWallSildeState wallSlideState { get; private set; }
     public PlayerWallJumpState wallJumpState { get; private set; }
-    public PlayerPrimaryAttack attackState { get; private set; }
+    public PlayerAttackState attackState { get; private set; }
+    public PlayerAimState aimState { get; private set; }
+    public PlayerCatchSword catchSwordState { get; private set; }
     #endregion
 
     protected override void Awake()
@@ -44,36 +45,36 @@ public class Player : Entity
         dashState = new PlayerDashState(this, playerStateMachine, "Dash");
         wallSlideState = new PlayerWallSildeState(this, playerStateMachine, "WallSlide");
         wallJumpState = new PlayerWallJumpState(this, playerStateMachine, "Jump");
-        attackState = new PlayerPrimaryAttack(this, playerStateMachine, "Attack");
+        attackState = new PlayerAttackState(this, playerStateMachine, "Attack");
+        aimState = new PlayerAimState(this, playerStateMachine, "AimSword");
+        catchSwordState = new PlayerCatchSword(this, playerStateMachine, "CatchSword");
     }
 
     protected override void Start()
     {
         base.Start();
         playerStateMachine.Initialize(idleState);
+        skillManager = SkillManager.Instance;
     }
 
     protected override void Update()
     {
         base.Update();
         playerStateMachine.currentState.Update();
-
         if (playerStateMachine.currentState == attackState)
             FlipController(0);
 
         if (!WallDetected())
         {
             OnDash();
-            OnDoubleJump();
+            //OnDoubleJump();
         }
     }
 
     private void OnDash()
     {
-        dashTimer -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.G) && dashTimer < 0)
+        if (Input.GetKeyDown(KeyCode.G) && skillManager.dash.CanUseSkill())
         {
-            dashTimer = dashCoolDown;
             dashDir = Input.GetAxisRaw("Horizontal");
             if (dashDir == 0)
                 dashDir = facingDir;
@@ -82,7 +83,7 @@ public class Player : Entity
         }
     }
 
-    private void OnDoubleJump()
+    /*private void OnDoubleJump()
     {
         if (GroundDetected())
             doubleJump = true;
@@ -91,7 +92,7 @@ public class Player : Entity
             doubleJump = false;
             playerStateMachine.ChangeState(jumpState);
         }
-    }
+    }*/
 
     public void AnimationTrigger() => playerStateMachine.currentState.AnimCalledTrigger();
 }
