@@ -12,7 +12,7 @@ public class PlayerState
     protected float xInput;
     protected float timerState;
     protected bool animCalledTrigger;
-    protected bool isBusy = false;
+    protected bool isBusy;
     private string animationName;
 
     public PlayerState(Player _player, PlayerStateMachine _playerStateMachine, string _animationName)
@@ -38,10 +38,10 @@ public class PlayerState
 
     private void OnMove()
     {
-        if (!isBusy)
-            xInput = Input.GetAxis("Horizontal");
+        if (isBusy == false)
+            xInput = player.PlayerInputHorizontal();
 
-        if (playerStateMachine.currentState != player.dashState && xInput != 0)
+        if (xInput != 0)
             player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
     }
 

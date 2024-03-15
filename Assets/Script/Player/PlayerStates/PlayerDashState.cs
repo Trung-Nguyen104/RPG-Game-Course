@@ -12,6 +12,7 @@ public class PlayerDashState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        isBusy = true;
         timerState = player.dashDuration;
         player.skillManager.createClone.CreateClone(player.transform);
     }
@@ -25,7 +26,6 @@ public class PlayerDashState : PlayerState
     {
         base.Update();
         player.SetVelocity(player.dashSpeed * player.dashDir, 0);
-
         if (timerState < 0)
             playerStateMachine.ChangeState(player.idleState);
 

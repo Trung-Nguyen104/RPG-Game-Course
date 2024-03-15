@@ -17,7 +17,8 @@ public class Player : Entity
 
     public float dashDir { get; private set; }
     public SkillManager skillManager { get; private set; }
-    private bool doubleJump;
+    public bool canCreateNewSword { get; private set; }
+    //private bool doubleJump;
 
     #region State
     public PlayerStateMachine playerStateMachine { get; private set; }
@@ -36,6 +37,7 @@ public class Player : Entity
     protected override void Awake()
     {
         base.Awake();
+        canCreateNewSword = true;
         playerStateMachine = new PlayerStateMachine();
 
         idleState = new PlayerIdleState(this, playerStateMachine, "Idle");
@@ -71,11 +73,16 @@ public class Player : Entity
         }
     }
 
+    public void CanCreateNewSword(bool _boolValue)
+    {
+        canCreateNewSword = _boolValue;
+    }
+
     private void OnDash()
     {
         if (Input.GetKeyDown(KeyCode.G) && skillManager.dash.CanUseSkill())
         {
-            dashDir = Input.GetAxisRaw("Horizontal");
+            dashDir = PlayerInputHorizontal();
             if (dashDir == 0)
                 dashDir = facingDir;
 
@@ -83,7 +90,11 @@ public class Player : Entity
         }
     }
 
-    /*private void OnDoubleJump()
+    public float PlayerInputHorizontal() => Input.GetAxisRaw("Horizontal");
+    public float PlayerInputVertical() => Input.GetAxisRaw("Vertical");
+
+    /* Double Jump Ability
+    private void OnDoubleJump()
     {
         if (GroundDetected())
             doubleJump = true;
@@ -92,7 +103,8 @@ public class Player : Entity
             doubleJump = false;
             playerStateMachine.ChangeState(jumpState);
         }
-    }*/
+    }
+    */
 
     public void AnimationTrigger() => playerStateMachine.currentState.AnimCalledTrigger();
 }

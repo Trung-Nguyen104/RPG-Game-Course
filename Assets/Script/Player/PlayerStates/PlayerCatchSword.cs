@@ -11,6 +11,8 @@ public class PlayerCatchSword : PlayerState
     public override void Enter()
     {
         base.Enter();
+        timerState = .5f;
+        isBusy = true;
     }
 
     public override void Exit()
@@ -21,5 +23,8 @@ public class PlayerCatchSword : PlayerState
     public override void Update()
     {
         base.Update();
+        player.SetVelocity(0, rb.velocity.y);
+        if (timerState < 0)
+            playerStateMachine.ChangeState(player.idleState);
     }
 }

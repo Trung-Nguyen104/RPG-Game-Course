@@ -12,6 +12,7 @@ public class PlayerIdleState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
+        isBusy = false;
         
     }
 

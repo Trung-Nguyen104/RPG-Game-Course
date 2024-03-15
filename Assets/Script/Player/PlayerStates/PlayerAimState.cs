@@ -12,6 +12,7 @@ public class PlayerAimState : PlayerState
     {
         base.Enter();
         player.skillManager.throwSword.SetAciveTrajectoryLine(true);
+        isBusy = true;
     }
 
     public override void Exit()
@@ -22,7 +23,6 @@ public class PlayerAimState : PlayerState
     public override void Update()
     {
         base.Update();
-        isBusy = true;
         player.SetVelocity(0, rb.velocity.y);
         if (Input.GetKeyUp(KeyCode.H))
             playerStateMachine.ChangeState(player.idleState);

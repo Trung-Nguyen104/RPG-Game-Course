@@ -31,7 +31,20 @@ public class PlayerGroundState : PlayerState
         if (Input.GetKeyDown(KeyCode.UpArrow) && player.GroundDetected() && !isBusy)
             playerStateMachine.ChangeState(player.jumpState);
 
-        if(Input.GetKeyDown(KeyCode.H))
+        if(Input.GetKeyDown(KeyCode.H) && CanCreateSword())
             playerStateMachine.ChangeState(player.aimState);
+    }
+
+    private bool CanCreateSword()
+    {
+        if (player.canCreateNewSword)
+        {
+            return true;
+        }
+        else
+        {
+            player.skillManager.throwSword.swordController.SwordReturnToPlayer();
+            return false;
+        }
     }
 }
