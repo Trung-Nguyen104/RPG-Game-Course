@@ -13,7 +13,7 @@ public class CreateClone_Skill : Skill
     public void CreateClone(Transform _playerTransform)
     {
         GameObject newClone = GameObject.Instantiate(clonePrefab);
-        newClone.GetComponent<Clone_Skill_Controller>().SetUpClone(_playerTransform, cloneTimeDuration, invisibleSpeed/*, canAttack*/);
+        newClone.GetComponent<Clone_Skill_Controller>().SetUpClone(_playerTransform, cloneTimeDuration, invisibleSpeed);
         newClone.GetComponent<Clone_Skill_Controller>().FaceToEnemySize(_playerTransform);
     }
 }

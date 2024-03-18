@@ -23,10 +23,13 @@ public class PlayerWallSildeState : PlayerState
         base.Update();
         player.SetVelocity(0, rb.velocity.y * .7f);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-            playerStateMachine.ChangeState(player.wallJumpState);
-
-        if (player.GroundDetected() || !player.WallDetected())
+        if(!player.WallDetected() || player.GroundDetected())
+        {
             playerStateMachine.ChangeState(player.idleState);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow) && player.WallDetected())
+        {
+            playerStateMachine.ChangeState(player.wallJumpState);
+        }
     }
 }

@@ -12,7 +12,7 @@ public class PlayerAimState : PlayerState
     {
         base.Enter();
         player.skillManager.throwSword.SetAciveTrajectoryLine(true);
-        isBusy = true;
+        player.isBusy = true;
     }
 
     public override void Exit()

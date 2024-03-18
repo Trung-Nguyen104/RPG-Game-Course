@@ -13,6 +13,7 @@ public class Clone_Skill_Controller : MonoBehaviour
     private float cloneTimer;
     private SpriteRenderer sr;
     private Animator animator;
+    private Enemy enemy;
     private float attackCheckRadius = 1.15f;
 
     private void Awake()
@@ -32,18 +33,13 @@ public class Clone_Skill_Controller : MonoBehaviour
         }
     }
 
-    public void SetUpClone(Transform _cloneTransform, float _cloneTimeDuration, float _invisibleSpeed/*, bool _canAttack*/)
+    public void SetUpClone(Transform _cloneTransform, float _cloneTimeDuration, float _invisibleSpeed)
     {
         transform.position = _cloneTransform.position;
         cloneTimeDuration = _cloneTimeDuration;
         invisibleSpeed = _invisibleSpeed;
         cloneTimer = cloneTimeDuration;
         animator.SetInteger("AttackNumber", Random.Range(1, 4));
-
-        /*if (_canAttack)
-        {
-            animator.SetInteger("AttackNumber", Random.Range(1, 4));
-        }*/
     }
 
     private void AnimationTrigger()
@@ -59,7 +55,12 @@ public class Clone_Skill_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().Damage();
+                if (hit.GetComponent<Enemy>() != null)
+                {
+                    enemy = hit.GetComponent<Enemy>();
+                    if (!enemy.CanBeStun())
+                        hit.GetComponent<Enemy>().Damage();
+                }
             }
         }
 

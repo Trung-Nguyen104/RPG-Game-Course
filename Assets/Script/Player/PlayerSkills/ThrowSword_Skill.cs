@@ -1,21 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+public enum SwordType
+{
+    Regular, 
+    Bounce,
+    Pierce,
+    Spin
+}
 public class ThrowSword_Skill : Skill
 {
+    public SwordType swordType = SwordType.Regular;
+
+    [Header("Bounce Sword")]
+    [SerializeField] private int bounceAmount;
+    [SerializeField] private float bounceSpeed;
+
+    [Header("Pierce Sword")]
+    [SerializeField] private int pierceAmount;
+
+    [Space(20)]
     [SerializeField] private GameObject swordPrefabs;
     [SerializeField] private Vector2 aimLimit;
     [SerializeField] private float aimSpeed;
-    [SerializeField] private float swordGravity;
+    [SerializeField] private float throwForce = 1;
+    [SerializeField] private float swordGravity = 3;
     [SerializeField] private float lineLength;
 
-    private int sizeOfLine = 25;
-    private Vector3[] trajectoryLine;
+    public Sword_Skill_Controller swordController { get; private set; }
     private LineRenderer lineRenderer;
-    private GameObject newSword;
-    public Sword_Skill_Controller swordController {  get; private set; }
+    private Vector3[] trajectoryLine;
     private Vector2 aimDirection;
+    private int sizeOfLine = 25;
     private bool trajectoryLineEnabled;
     private float inputX;
     private float inputY;
@@ -41,13 +55,45 @@ public class ThrowSword_Skill : Skill
 
     public void CreateSword()
     {
-        newSword = Instantiate(swordPrefabs, player.transform.position, transform.rotation);
+        BounceSwordType();
+        PierceSwordType();
+        GameObject newSword = Instantiate(swordPrefabs, player.transform.position, transform.rotation);
         swordController = newSword.GetComponent<Sword_Skill_Controller>();
         SetAciveTrajectoryLine(false);
-        swordController.SetUpSword(aimDirection, swordGravity, player);
+        swordController.SetUpSword(aimDirection, SetUpGravity(), throwForce, player);
         player.CanCreateNewSword(false);
+
     }
 
+    private float SetUpGravity()
+    {
+        var temp = swordGravity;
+        if(swordType == SwordType.Bounce || swordType == SwordType.Pierce)
+        {
+            swordGravity = 0;
+        }
+        return swordGravity;
+    }
+    private void BounceSwordType()
+    {
+        if(swordType == SwordType.Bounce)
+        {
+            swordController.SetUpSwordBounce(bounceAmount, bounceSpeed, true);
+            throwForce = 1f;
+        }
+    }
+
+    private void PierceSwordType()
+    {
+        if (swordType == SwordType.Pierce)
+        {
+            swordController.SetUpSwordPierce(pierceAmount, true);
+            throwForce = 2f;
+        }
+    }
+
+
+    #region TrajectoryLine
     private void SetUpTrajectoryLine()
     {
         if (Input.GetKey(KeyCode.H))
@@ -81,9 +127,10 @@ public class ThrowSword_Skill : Skill
 
     private Vector2 TrajectoryLinePosition(float t)
     {
-        Vector3 position = (Vector2)player.transform.position 
-                            + new Vector2(inputX, inputY) * t 
-                            + (t * t) * .5f * (Physics2D.gravity * swordGravity);
+        Vector3 position = (Vector2)player.transform.position
+                            + new Vector2(inputX, inputY) * t
+                            + (t * t) * .5f * (Physics2D.gravity * SetUpGravity());
         return position;
     }
+    #endregion
 }

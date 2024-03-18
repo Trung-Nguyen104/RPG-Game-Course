@@ -12,7 +12,7 @@ public class PlayerDashState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        isBusy = true;
+        player.isBusy = true;
         timerState = player.dashDuration;
         player.skillManager.createClone.CreateClone(player.transform);
     }

@@ -112,7 +112,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd3a99918265a0438b9a9e7687ec828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockBackForce: 4
+  knockBackForce: 5
   knockBackTime: 0.5
   attackCheck: {fileID: 2548919131495453220}
   attackCheckRadius: 1.3

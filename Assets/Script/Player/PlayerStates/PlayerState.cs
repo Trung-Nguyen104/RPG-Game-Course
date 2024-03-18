@@ -12,7 +12,6 @@ public class PlayerState
     protected float xInput;
     protected float timerState;
     protected bool animCalledTrigger;
-    protected bool isBusy;
     private string animationName;
 
     public PlayerState(Player _player, PlayerStateMachine _playerStateMachine, string _animationName)
@@ -38,10 +37,8 @@ public class PlayerState
 
     private void OnMove()
     {
-        if (isBusy == false)
-            xInput = player.PlayerInputHorizontal();
-
-        if (xInput != 0)
+        xInput = player.PlayerInputHorizontal();
+        if (xInput != 0 && !player.isBusy)
             player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
     }
 
@@ -54,4 +51,6 @@ public class PlayerState
     {
         animCalledTrigger = true;
     }
+
+    
 }

@@ -12,7 +12,8 @@ public class PlayerIdleState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
-        isBusy = false;
+        player.SetVelocity(0, rb.velocity.y);
+        player.isBusy = false;
         
     }
 
@@ -24,9 +25,8 @@ public class PlayerIdleState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-        if (playerStateMachine.currentState != player.attackState)
-            player.SetVelocity(0, rb.velocity.y);
-        if (xInput != 0)
+        
+        if (xInput != 0 && !player.isBusy)
             playerStateMachine.ChangeState(player.moveState);
     }
 }

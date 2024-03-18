@@ -18,7 +18,7 @@ public class Player : Entity
     public float dashDir { get; private set; }
     public SkillManager skillManager { get; private set; }
     public bool canCreateNewSword { get; private set; }
-    //private bool doubleJump;
+    public bool isBusy { get; set; }
 
     #region State
     public PlayerStateMachine playerStateMachine { get; private set; }
@@ -69,7 +69,6 @@ public class Player : Entity
         if (!WallDetected())
         {
             OnDash();
-            //OnDoubleJump();
         }
     }
 
@@ -80,7 +79,7 @@ public class Player : Entity
 
     private void OnDash()
     {
-        if (Input.GetKeyDown(KeyCode.G) && skillManager.dash.CanUseSkill())
+        if (Input.GetKeyDown(KeyCode.G) && skillManager.dash.CanUseSkill() && !isBusy)
         {
             dashDir = PlayerInputHorizontal();
             if (dashDir == 0)
@@ -92,19 +91,5 @@ public class Player : Entity
 
     public float PlayerInputHorizontal() => Input.GetAxisRaw("Horizontal");
     public float PlayerInputVertical() => Input.GetAxisRaw("Vertical");
-
-    /* Double Jump Ability
-    private void OnDoubleJump()
-    {
-        if (GroundDetected())
-            doubleJump = true;
-        if (Input.GetKeyDown(KeyCode.UpArrow) && doubleJump == true)
-        {
-            doubleJump = false;
-            playerStateMachine.ChangeState(jumpState);
-        }
-    }
-    */
-
     public void AnimationTrigger() => playerStateMachine.currentState.AnimCalledTrigger();
 }

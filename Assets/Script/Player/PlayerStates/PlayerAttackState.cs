@@ -14,7 +14,7 @@ public class PlayerAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        isBusy = true;
+        player.isBusy = true;
         if ( comboCounter > 2 || Time.time >= lastTimerAttacked + comboTimer)
             comboCounter = 0;
          
