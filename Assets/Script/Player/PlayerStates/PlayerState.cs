@@ -35,12 +35,6 @@ public class PlayerState
         player.animator.SetFloat("yVelocity", rb.velocity.y);
     }
 
-    private void OnMove()
-    {
-        xInput = player.PlayerInputHorizontal();
-        if (xInput != 0 && !player.isBusy)
-            player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
-    }
 
     public virtual void Exit() 
     {
@@ -52,5 +46,10 @@ public class PlayerState
         animCalledTrigger = true;
     }
 
-    
+    private void OnMove()
+    {
+        xInput = player.PlayerInputHorizontal();
+        if (xInput != 0 && !player.isBusy)
+            player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
+    }
 }

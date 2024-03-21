@@ -24,8 +24,8 @@ public class PlayerAIrState : PlayerState
         if (player.GroundDetected())
             playerStateMachine.ChangeState(player.idleState);
 
-        //if (player.WallDetected())
-            //playerStateMachine.ChangeState(player.wallSlideState);
+        if (player.WallDetected())
+            playerStateMachine.ChangeState(player.wallSlideState);
 
     }
 }

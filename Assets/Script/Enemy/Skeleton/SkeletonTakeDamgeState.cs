@@ -13,6 +13,7 @@ public class SkeletonTakeDamgeState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        skeleton.CloseCounterSignal();
     }
 
     public override void Exit()

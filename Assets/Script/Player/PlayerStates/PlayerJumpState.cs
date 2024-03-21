@@ -28,5 +28,8 @@ public class PlayerJumpState : PlayerState
 
         if(player.WallDetected())
             playerStateMachine.ChangeState(player.wallSlideState);
+
+        if(Input.GetKeyDown(KeyCode.U))
+            playerStateMachine.ChangeState(player.ultimateState);
     }
 }

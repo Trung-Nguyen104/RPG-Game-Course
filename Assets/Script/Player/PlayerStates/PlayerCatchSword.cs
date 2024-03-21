@@ -14,8 +14,7 @@ public class PlayerCatchSword : PlayerState
         base.Enter();
         swordTransform = player.skillManager.throwSword.swordController.transform;
         PlayerFlipToSword();
-        rb.AddForce(new Vector2(2f * -player.facingDir, rb.velocity.y), ForceMode2D.Impulse);
-        timerState = .5f;
+        timerState = .2f;
         player.isBusy = true;
     }
 
@@ -27,6 +26,7 @@ public class PlayerCatchSword : PlayerState
     public override void Update()
     {
         base.Update();
+        player.SetVelocity(0, rb.velocity.y);
         if (timerState < 0)
             playerStateMachine.ChangeState(player.idleState);
     }

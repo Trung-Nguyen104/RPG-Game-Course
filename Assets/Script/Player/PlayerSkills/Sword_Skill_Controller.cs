@@ -41,15 +41,17 @@ public class Sword_Skill_Controller : MonoBehaviour
         this.player = _player;
         this.rb.AddForce(_direction * _throwForce, ForceMode2D.Impulse);
         this.rb.gravityScale = _gravityScale;
-        SwordAnimationHandle(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         collision.GetComponent<Enemy>()?.Damage();
+        if (collision.GetComponent<Enemy>() != null)
+        {
+            BouncingTargetSetUp();
+            PierceSwordHandle();
+        }
         StuckInToTarget(collision);
-        BouncingTargetSetUp(collision);
-        PierceSwordHandle(collision);
     }
 
     #region SwordBounce
@@ -85,9 +87,9 @@ public class Sword_Skill_Controller : MonoBehaviour
         }
     }
 
-    private void BouncingTargetSetUp(Collider2D collision)
+    private void BouncingTargetSetUp()
     {
-        if (collision.GetComponent<Enemy>() != null && canBounce && enemyTarget.Count <= 0)
+        if (canBounce && enemyTarget.Count <= 0)
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10);
             foreach (var hit in colliders)
@@ -107,14 +109,13 @@ public class Sword_Skill_Controller : MonoBehaviour
     {
         this.pierceAmount = _pierceAmount;
         this.canPierce = _canPierce;
-        SwordAnimationHandle(false);
     }
 
-    private void PierceSwordHandle(Collider2D collision)
+    private void PierceSwordHandle()
     {
-        if (canPierce && collision.GetComponent<Enemy>() != null)
+        if (canPierce)
             pierceAmount--;
-        if(pierceAmount <= 0)
+        if (pierceAmount <= 0)
             canPierce = false;
     }
 
@@ -126,13 +127,13 @@ public class Sword_Skill_Controller : MonoBehaviour
             return;
 
         canFly = false;
-        cd2D.enabled = false;
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
-        if (canBounce)
+        if (canBounce && enemyTarget.Count > 0)
             return;
 
+        cd2D.enabled = false;
         transform.parent = collision.transform;
         SwordAnimationHandle(false);
     }
@@ -141,18 +142,15 @@ public class Sword_Skill_Controller : MonoBehaviour
     {
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         transform.parent = null;
-
-        if (!canPierce)
-            canReturn = true;
-        else
-            TeleToSword();
+        canReturn = true;
+        //TeleToSword();
     }
 
     private void SwordReturnHandle()
     {
         if (canReturn)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, 15f * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, 30f * Time.deltaTime);
             SwordAnimationHandle(true);
             if (Vector2.Distance(transform.position, player.transform.position) < 1)
             {

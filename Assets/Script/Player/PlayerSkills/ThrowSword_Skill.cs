@@ -1,7 +1,7 @@
 using UnityEngine;
 public enum SwordType
 {
-    Regular, 
+    Regular,
     Bounce,
     Pierce,
     Spin
@@ -21,8 +21,8 @@ public class ThrowSword_Skill : Skill
     [SerializeField] private GameObject swordPrefabs;
     [SerializeField] private Vector2 aimLimit;
     [SerializeField] private float aimSpeed;
-    [SerializeField] private float throwForce = 1;
-    [SerializeField] private float swordGravity = 3;
+    [SerializeField] private float throwForce;
+    [SerializeField] private float swordGravity;
     [SerializeField] private float lineLength;
 
     public Sword_Skill_Controller swordController { get; private set; }
@@ -55,43 +55,33 @@ public class ThrowSword_Skill : Skill
 
     public void CreateSword()
     {
-        BounceSwordType();
-        PierceSwordType();
         GameObject newSword = Instantiate(swordPrefabs, player.transform.position, transform.rotation);
         swordController = newSword.GetComponent<Sword_Skill_Controller>();
         SetAciveTrajectoryLine(false);
-        swordController.SetUpSword(aimDirection, SetUpGravity(), throwForce, player);
+        swordController.SetUpSword(aimDirection, SetUpGravity(), SetUpThrowForce(), player);
         player.CanCreateNewSword(false);
 
+        BounceSwordType();
+        PierceSwordType();
     }
 
-    private float SetUpGravity()
-    {
-        var temp = swordGravity;
-        if(swordType == SwordType.Bounce || swordType == SwordType.Pierce)
-        {
-            swordGravity = 0;
-        }
-        return swordGravity;
-    }
+    #region Set Up Sword Type
+    private float SetUpGravity() => swordGravity = (swordType == SwordType.Pierce) ? 0 : 3.5f;
+
+    private float SetUpThrowForce() => throwForce = (swordType == SwordType.Pierce) ? 2f : 1;
+
     private void BounceSwordType()
     {
-        if(swordType == SwordType.Bounce)
-        {
+        if (swordType == SwordType.Bounce)
             swordController.SetUpSwordBounce(bounceAmount, bounceSpeed, true);
-            throwForce = 1f;
-        }
     }
 
     private void PierceSwordType()
     {
         if (swordType == SwordType.Pierce)
-        {
             swordController.SetUpSwordPierce(pierceAmount, true);
-            throwForce = 2f;
-        }
     }
-
+    #endregion
 
     #region TrajectoryLine
     private void SetUpTrajectoryLine()

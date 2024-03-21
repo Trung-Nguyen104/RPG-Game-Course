@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-
 public class PlayerDashState : PlayerState
 {
     public PlayerDashState(Player _player, PlayerStateMachine _playerStateMachine, string _animationName) : base(_player, _playerStateMachine, _animationName)
@@ -14,7 +9,7 @@ public class PlayerDashState : PlayerState
         base.Enter();
         player.isBusy = true;
         timerState = player.dashDuration;
-        player.skillManager.createClone.CreateClone(player.transform);
+        //player.skillManager.createClone.CreateClone(player.transform);
     }
 
     public override void Exit()

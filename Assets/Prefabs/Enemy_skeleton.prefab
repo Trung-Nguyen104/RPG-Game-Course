@@ -154,12 +154,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd3a99918265a0438b9a9e7687ec828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockBackForce: 5
-  knockBackTime: 0.5
+  knockBackForce: 2
+  knockBackTime: 0.3
   attackCheck: {fileID: 2548919131495453220}
   attackCheckRadius: 1.3
   groundCheck: {fileID: 512273778359999593}
-  groundCheckDistance: 0.49
+  groundCheckDistance: 1
   horizontalCheck: {fileID: 7379702646850186256}
   horizontalCheckDistance: 0.91
   platformLayer:
@@ -374,8 +374,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1197877103
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: -85727878, guid: 687df074731fbf744b668d2275dbb675, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

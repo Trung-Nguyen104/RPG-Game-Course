@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Clone_Skill_Controller : MonoBehaviour
 {
@@ -13,7 +8,6 @@ public class Clone_Skill_Controller : MonoBehaviour
     private float cloneTimer;
     private SpriteRenderer sr;
     private Animator animator;
-    private Enemy enemy;
     private float attackCheckRadius = 1.15f;
 
     private void Awake()
@@ -25,17 +19,17 @@ public class Clone_Skill_Controller : MonoBehaviour
     private void Update()
     {
         cloneTimer -= Time.deltaTime;
-        if( cloneTimer < 0)
+        if (cloneTimer < 0)
         {
             sr.color = new Color(1, 1, 1, sr.color.a - (Time.deltaTime * invisibleSpeed));
-            if(sr.color.a < 0 )
+            if (sr.color.a < 0)
                 GameObject.Destroy(gameObject);
         }
     }
 
-    public void SetUpClone(Transform _cloneTransform, float _cloneTimeDuration, float _invisibleSpeed)
+    public void SetUpClone(Transform _cloneTransform, float _cloneTimeDuration, float _invisibleSpeed, Vector3 _offset)
     {
-        transform.position = _cloneTransform.position;
+        transform.position = _cloneTransform.position + _offset;
         cloneTimeDuration = _cloneTimeDuration;
         invisibleSpeed = _invisibleSpeed;
         cloneTimer = cloneTimeDuration;
@@ -55,19 +49,21 @@ public class Clone_Skill_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                if (hit.GetComponent<Enemy>() != null)
-                {
-                    enemy = hit.GetComponent<Enemy>();
-                    if (!enemy.CanBeStun())
-                        hit.GetComponent<Enemy>().Damage();
-                }
+                hit.GetComponent<Enemy>().Damage();
             }
         }
 
     }
 
-    public void FaceToEnemySize(Transform _playerTransform)
+    public void FaceToEnemySize(Vector3 _offset)
     {
-        gameObject.transform.rotation = _playerTransform.rotation;
+        if(_offset.x == 2)
+        {
+            gameObject.transform.Rotate(0, 180, 0);
+        }
+        else
+        {
+            return;
+        }
     }
 }

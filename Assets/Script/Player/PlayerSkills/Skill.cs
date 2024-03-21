@@ -30,6 +30,6 @@ public class Skill : MonoBehaviour
 
     public virtual void UseSkill()
     {
-        // do skill spesifics
+
     }
 }

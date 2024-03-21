@@ -25,6 +25,7 @@ public class Entity : MonoBehaviour
     public Animator animator { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public EntityFX fx { get; private set; }
+    public SpriteRenderer sr { get; private set; }
     #endregion
 
     protected virtual void Awake()
@@ -35,6 +36,7 @@ public class Entity : MonoBehaviour
     protected virtual void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         fx = GetComponent<EntityFX>();
     }
@@ -89,5 +91,17 @@ public class Entity : MonoBehaviour
         rb.AddForce(new Vector2(1 * -facingDir, 1) * knockBackForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(knockBackTime);
         isTakeDamged = false;
+    }
+
+    public virtual void SetTransprent(bool _boolValue)
+    {
+        if(_boolValue)
+        {
+            sr.color = Color.clear;
+        }
+        else
+        {
+            sr.color = Color.white;
+        }
     }
 }

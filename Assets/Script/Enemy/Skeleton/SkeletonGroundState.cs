@@ -25,7 +25,7 @@ public class SkeletonGroundState : EnemyState
     public override void Update()
     {
         base.Update();
-        if(enemy.PlayerDetected() || Vector2.Distance(skeleton.transform.position, player.transform.position) < 4)
+        if(enemy.PlayerDetected() || Vector2.Distance(skeleton.transform.position, player.transform.position) < 2f)
             stateMachine.ChangeState(skeleton.sawPlayerState);
     }
 }
