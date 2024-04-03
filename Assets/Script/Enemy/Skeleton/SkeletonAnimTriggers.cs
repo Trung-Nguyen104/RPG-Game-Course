@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkeletonAnimTriggers : MonoBehaviour
 {
-    private Skeleton_Enemy skeleton => GetComponentInParent<Skeleton_Enemy>();
+    private SkeletonEnemy skeleton => GetComponentInParent<SkeletonEnemy>();
 
     private void AnimationTrigger()
     {
@@ -18,7 +18,8 @@ public class SkeletonAnimTriggers : MonoBehaviour
         {
             if (hit.GetComponent<Player>() != null)
             {
-                hit.GetComponent<Player>().Damage();
+                var playerTarget =  hit.GetComponent<CharCommonStats>();
+                skeleton.charStats.HandleDamage(playerTarget);
             }
         }
 

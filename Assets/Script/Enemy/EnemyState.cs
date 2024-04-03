@@ -11,11 +11,11 @@ public class EnemyState
     protected float stateTimer;
     private string animBoolName;
 
-    public EnemyState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName)
+    public EnemyState(Enemy _enemy, EnemyStateMachine _stateMachine, string _animBoolName)
     {
         this.enemy = _enemy;
         this.stateMachine = _stateMachine;
-        this.animBoolName = animBoolName;
+        this.animBoolName = _animBoolName;
     }
 
     public virtual void Enter()

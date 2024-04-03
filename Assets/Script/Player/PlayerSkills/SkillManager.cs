@@ -5,10 +5,10 @@ public class SkillManager : MonoBehaviour
     private static SkillManager instance;
     public static SkillManager Instance { get => instance; }
 
-    public Dash_Skill dash { get; private set; }
-    public CreateClone_Skill createClone { get; private set; }
-    public ThrowSword_Skill throwSword { get; private set; }
-    public Ultimate_Skill ultimateSkill { get; private set; }
+    public DashSkill dash { get; private set; }
+    public CreateCloneSkill createClone { get; private set; }
+    public ThrowSwordSkill throwSword { get; private set; }
+    public UltimateSkill ultimateSkill { get; private set; }
 
     private void Awake()
     {
@@ -24,10 +24,10 @@ public class SkillManager : MonoBehaviour
 
     private void Start()
     {
-        dash = GetComponent<Dash_Skill>();
-        createClone = GetComponent<CreateClone_Skill>();
-        throwSword = GetComponent<ThrowSword_Skill>();
-        ultimateSkill = GetComponent<Ultimate_Skill>();
+        dash = GetComponent<DashSkill>();
+        createClone = GetComponent<CreateCloneSkill>();
+        throwSword = GetComponent<ThrowSwordSkill>();
+        ultimateSkill = GetComponent<UltimateSkill>();
     }
 
 }

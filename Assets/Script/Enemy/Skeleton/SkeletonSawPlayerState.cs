@@ -5,9 +5,9 @@ using UnityEngine;
 public class SkeletonSawPlayerState : EnemyState
 {
     private Transform player;
-    private Skeleton_Enemy skeleton;
+    private SkeletonEnemy skeleton;
     private int moveDir;
-    public SkeletonSawPlayerState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, Skeleton_Enemy _skeleton) : base(_enemy, _stateMachine, animBoolName)
+    public SkeletonSawPlayerState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, SkeletonEnemy _skeleton) : base(_enemy, _stateMachine, animBoolName)
     {
         this.skeleton = _skeleton;
     }
@@ -26,21 +26,34 @@ public class SkeletonSawPlayerState : EnemyState
     public override void Update()
     {
         base.Update();
+
+        CheckPlayerPosition();
+
+        skeleton.SetVelocity(skeleton.sawPlayerMoveSpeed * moveDir, rb.velocity.y);
+
+        CheckPlayerDetection();
+    }
+
+    private void CheckPlayerPosition()
+    {
         if (player.position.x > skeleton.transform.position.x)
             moveDir = 1;
         else if (player.position.x < skeleton.transform.position.x)
             moveDir = -1;
-        skeleton.SetVelocity(skeleton.sawPlayerMoveSpeed * moveDir, rb.velocity.y);
+    }
 
+    private void CheckPlayerDetection()
+    {
         if (!skeleton.PlayerDetected())
+        {
             stateMachine.ChangeState(skeleton.moveState);
+        }
         else if (skeleton.PlayerDetected())
         {
-            if(skeleton.PlayerDetected().distance < skeleton.attackPlayerDistance) 
+            if (skeleton.PlayerDetected().distance < skeleton.attackPlayerDistance)
             {
                 stateMachine.ChangeState(skeleton.attackState);
             }
         }
-
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Entity
+public class Enemy : CharCommonBehavior
 {
     [SerializeField] protected LayerMask playerLayer;
     [SerializeField] public float idleTime;
@@ -20,6 +20,7 @@ public class Enemy : Entity
     [SerializeField] public float sawPlayerDistance;
     [SerializeField] public float attackPlayerDistance;
     public EnemyStateMachine stateMachine { get; private set; }
+    public bool wasDead { get; set; }
 
     protected override void Awake()
     {
@@ -81,4 +82,5 @@ public class Enemy : Entity
             animator.speed = 1;
         }
     }
+
 }

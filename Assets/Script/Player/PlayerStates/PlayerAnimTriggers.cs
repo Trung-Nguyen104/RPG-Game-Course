@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAnimTriggers : MonoBehaviour
 {
     private Player player => GetComponentInParent<Player>();
-    private Enemy enemy;
+    
 
     private void AnimationTrigger()
     {
@@ -20,9 +20,11 @@ public class PlayerAnimTriggers : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                enemy = hit.GetComponent<Enemy>();
+                var enemy = hit.GetComponent<Enemy>();
+                var enemyTarget = hit.GetComponent<CharCommonStats>();
+                
                 if (!enemy.CanBeStun())
-                    hit.GetComponent<Enemy>().Damage();
+                    player.charStats.HandleDamage(enemyTarget);
             }
         }
 
