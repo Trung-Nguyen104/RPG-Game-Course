@@ -20,7 +20,6 @@ public class Enemy : CharCommonBehavior
     [SerializeField] public float sawPlayerDistance;
     [SerializeField] public float attackPlayerDistance;
     public EnemyStateMachine stateMachine { get; private set; }
-    public bool wasDead { get; set; }
 
     protected override void Awake()
     {

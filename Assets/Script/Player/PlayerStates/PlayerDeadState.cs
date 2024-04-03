@@ -12,6 +12,7 @@ public class PlayerDeadState : PlayerState
     {
         base.Enter();
         player.cd2D.enabled = false;
+        player.rb.isKinematic = true;
     }
 
     public override void Exit()

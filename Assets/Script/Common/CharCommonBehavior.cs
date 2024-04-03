@@ -18,6 +18,8 @@ public class CharCommonBehavior : MonoBehaviour
     [SerializeField] protected LayerMask platformLayer;
 
     public float facingDir { get; private set; } = 1;
+    public bool wasDead { get; set; }
+
     protected bool facingRight = true;
 
     #region Component

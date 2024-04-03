@@ -94,6 +94,7 @@ public class Player : CharCommonBehavior
     public override void DeadEffect()
     {
         base.DeadEffect();
+        wasDead = true;
         playerStateMachine.ChangeState(dieState);
     }
 

@@ -498,13 +498,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage:
-    baseValue: 200
+    baseValue: 100
     modifiers: 
   strength:
     baseValue: 3
     modifiers: 
   maxHP:
-    baseValue: 200
+    baseValue: 300
     modifiers: 
   currHP: 0
 --- !u!1 &200292597

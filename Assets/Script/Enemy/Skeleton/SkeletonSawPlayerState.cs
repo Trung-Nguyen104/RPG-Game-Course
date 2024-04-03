@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkeletonSawPlayerState : EnemyState
 {
-    private Transform player;
+    private Player player;
     private SkeletonEnemy skeleton;
     private int moveDir;
     public SkeletonSawPlayerState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, SkeletonEnemy _skeleton) : base(_enemy, _stateMachine, animBoolName)
@@ -15,7 +15,7 @@ public class SkeletonSawPlayerState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        player = PlayerManager.Instance.player.transform;
+        player = PlayerManager.Instance.player;
     }
 
     public override void Exit()
@@ -36,9 +36,12 @@ public class SkeletonSawPlayerState : EnemyState
 
     private void CheckPlayerPosition()
     {
-        if (player.position.x > skeleton.transform.position.x)
+        if (player.wasDead)
+            return;
+
+        if (player.transform.position.x > skeleton.transform.position.x)
             moveDir = 1;
-        else if (player.position.x < skeleton.transform.position.x)
+        else if (player.transform.position.x < skeleton.transform.position.x)
             moveDir = -1;
     }
 
