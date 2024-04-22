@@ -230,7 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coolDown: 4
   blackHolePrefabs: {fileID: 6914935664974517498, guid: 0cc90a7d16ae7114e995c4d079ff0680, type: 3}
-  maxSize: 15
+  maxSize: 13
   growSpeed: 3
   cloneAttackCoolDown: 0.5
 --- !u!114 &58122605
@@ -497,16 +497,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27b8ca7908bcd9408f765c9535ed41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage:
-    baseValue: 100
-    modifiers: 
+  currHP: 0
   strength:
     baseValue: 3
     modifiers: 
-  maxHP:
-    baseValue: 300
+  agility:
+    baseValue: 0
     modifiers: 
-  currHP: 0
+  intelligence:
+    baseValue: 0
+    modifiers: 
+  vitality:
+    baseValue: 0
+    modifiers: 
+  health:
+    baseValue: 500
+    modifiers: 
+  armor:
+    baseValue: 0
+    modifiers: 
+  evasion:
+    baseValue: 0
+    modifiers: 
+  magicResistance:
+    baseValue: 0
+    modifiers: 
+  physicDamage:
+    baseValue: 0
+    modifiers: 
+  criticalRate:
+    baseValue: 0
+    modifiers: 
+  criticalDamage:
+    baseValue: 0
+    modifiers: 
+  fireDamage:
+    baseValue: 0
+    modifiers: 
+  iceDamage:
+    baseValue: 0
+    modifiers: 
+  lightingDamage:
+    baseValue: 0
+    modifiers: 
+  isIgnited: 0
+  isChilled: 0
+  isShoked: 0
+  igniteTimer: 0
 --- !u!1 &200292597
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,7 +2291,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 8.5
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2500,6 +2537,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 4561921632155909279, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
+      propertyPath: isIgnited
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4561921632155909279, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
+      propertyPath: iceDamage.baseValue
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4561921632155909279, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
+      propertyPath: fireDamage.baseValue
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4561921632155909279, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
+      propertyPath: lightingDamage.baseValue
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7379702646850186256, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.38
@@ -2518,15 +2571,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7379702646850186256, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7379702646850186256, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7379702646850186256, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7379702646850186256, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2985,7 +3038,7 @@ MonoBehaviour:
   m_Follow: {fileID: 142013890}
   m_Lens:
     FieldOfView: 40
-    OrthographicSize: 8.5
+    OrthographicSize: 7
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
