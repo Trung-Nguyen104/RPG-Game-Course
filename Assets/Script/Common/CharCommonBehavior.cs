@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharCommonBehavior : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class CharCommonBehavior : MonoBehaviour
 
     protected bool facingRight = true;
 
+
+
     #region Component
     public Animator animator { get; private set; }
     public Rigidbody2D rb { get; private set; }
@@ -29,6 +32,7 @@ public class CharCommonBehavior : MonoBehaviour
     public SpriteRenderer sr { get; private set; }
     public CharCommonStats charStats { get; private set; }
     public Collider2D cd2D { get; private set; }
+    public Slider slider { get; private set; }
     #endregion
 
     protected virtual void Awake()
@@ -41,6 +45,7 @@ public class CharCommonBehavior : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
         cd2D = GetComponentInChildren<Collider2D>();
+        slider = GetComponentInChildren<Slider>();
         charStats = GetComponent<CharCommonStats>();
         rb = GetComponent<Rigidbody2D>();
         fx = GetComponent<EntityFX>();

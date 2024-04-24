@@ -32,6 +32,7 @@ public class CharCommonStats : MonoBehaviour
 
     private float igniteDuration = 5f;
     public float igniteTimer;
+    public GameObject igniteFXPrefabs;
     private int igniteDamage;
     private float chillDuration = 3f;
     private float chillTimer;
@@ -41,10 +42,13 @@ public class CharCommonStats : MonoBehaviour
 
     public System.Action onHealthChanged;
 
+    private EntityFX fx;
+
     protected virtual void Start()
     {
         currHP = SetUpCurrentHealth();
         criticalDamage.SetDefaultValue(150);
+        fx = GetComponent<EntityFX>();
     }
 
     protected virtual void Update()
@@ -95,6 +99,7 @@ public class CharCommonStats : MonoBehaviour
     public virtual void TakeDamageHP(int _damage)
     {
         DecreaseHealth(_damage);
+
         if (currHP <= 0)
         {
             HandleDie();
@@ -154,6 +159,14 @@ public class CharCommonStats : MonoBehaviour
             igniteDamageSpeed = 1;
             igniteTimer = 0;
         }
+    }
+
+    private void HandleIgniteFX()
+    {
+        fx.IgniteEffect(igniteDuration);
+        var igniteFX = Instantiate(igniteFXPrefabs, transform.position, Quaternion.identity);
+        var igniteFXContr = igniteFX.GetComponent<IgniteFxController>();
+        igniteFXContr.SetUpIgnite(transform, igniteDuration);
     }
 
     private void HandleChillDuration()
@@ -250,8 +263,12 @@ public class CharCommonStats : MonoBehaviour
         {
             return;
         }
-
-        isIgnited = _ignited;
+        
+        if(_ignited)
+        {
+            isIgnited = _ignited;
+            HandleIgniteFX();
+        }
         isChilled = _chilled;
         isShocked = _shocked;
     }

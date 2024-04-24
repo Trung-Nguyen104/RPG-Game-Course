@@ -18,6 +18,11 @@ public class CloneSkillController : MonoBehaviour
 
     private void Update()
     {
+        HandleCloneDisappear();
+    }
+
+    private void HandleCloneDisappear()
+    {
         cloneTimer -= Time.deltaTime;
         if (cloneTimer < 0)
         {

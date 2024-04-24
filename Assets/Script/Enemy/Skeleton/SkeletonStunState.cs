@@ -18,7 +18,7 @@ public class SkeletonStunState : EnemyState
     public override void Exit()
     {
         base.Exit();
-        skeleton.fx.Invoke("CancelStunEffect", 0);
+        skeleton.fx.Invoke("CancelEffect", 0);
     }
 
     public override void Update()
