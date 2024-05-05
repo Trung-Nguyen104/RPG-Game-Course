@@ -3,19 +3,21 @@ public enum SwordType
 {
     Regular,
     Bounce,
-    Pierce,
-    Spin
+    Pierce
 }
 public class ThrowSwordSkill : Skill
 {
     public SwordType swordType = SwordType.Regular;
+    [SerializeField] private int regularDamage;
 
     [Header("Bounce Sword")]
     [SerializeField] private int bounceAmount;
     [SerializeField] private float bounceSpeed;
+    [SerializeField] private int bounceDamage;
 
     [Header("Pierce Sword")]
     [SerializeField] private int pierceAmount;
+    [SerializeField] private int pierceDamage;
 
     [Space(20)]
     [SerializeField] private GameObject swordPrefabs;
@@ -60,9 +62,23 @@ public class ThrowSwordSkill : Skill
         SetActiveTrajectoryLine(false);
         swordController.SetUpSword(aimDirection, SetUpGravity(), SetUpThrowForce(), player);
         player.CanCreateNewSword(false);
+        HandleSwordType();
+    }
 
-        BounceSwordType();
-        PierceSwordType();
+    private void HandleSwordType()
+    {
+        switch (swordType)
+        {
+            case SwordType.Bounce: 
+                BounceSwordType();
+                break; 
+            case SwordType.Pierce:
+                PierceSwordType();
+                break;
+            default:
+                swordController.swordDamage = regularDamage;
+                break;
+        }
     }
 
     #region Set Up Sword Type
@@ -72,14 +88,12 @@ public class ThrowSwordSkill : Skill
 
     private void BounceSwordType()
     {
-        if (swordType == SwordType.Bounce)
-            swordController.SetUpSwordBounce(bounceAmount, bounceSpeed, true);
+        swordController.SetUpSwordBounce(bounceAmount, bounceSpeed, true, bounceDamage);
     }
 
     private void PierceSwordType()
     {
-        if (swordType == SwordType.Pierce)
-            swordController.SetUpSwordPierce(pierceAmount, true);
+        swordController.SetUpSwordPierce(pierceAmount, true, pierceDamage);
     }
     #endregion
 

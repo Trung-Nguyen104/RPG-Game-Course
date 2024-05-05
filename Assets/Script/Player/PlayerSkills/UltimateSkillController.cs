@@ -9,9 +9,10 @@ public class UltimateSkillController : MonoBehaviour
     private float growSpeed;
     private bool canUseUltimate;
     private bool canShrink;
-    private int attackCount = 6;
+    private int attackCount;
     private float cloneAttackTimer;
     private float cloneAttackCoolDown = .5f;
+    private int cloneAttackDamage;
 
     private void Update()
     {
@@ -20,12 +21,14 @@ public class UltimateSkillController : MonoBehaviour
         DestroyUltimateBlackHole();
     }
 
-    public void SetUpUltimateBlackHole(float _maxSize, float _growSpeed, float _cloneAttackCoolDown)
+    public void SetUpUltimateBlackHole(float _maxSize, float _growSpeed, float _cloneAttackCoolDown, int _damage)
     {
         maxSize = _maxSize;
+        attackCount = Mathf.RoundToInt(_maxSize);
         growSpeed = _growSpeed;
         cloneAttackCoolDown = _cloneAttackCoolDown;
         canUseUltimate = true;
+        cloneAttackDamage = _damage;
         player = PlayerManager.Instance.player;
     }
 
@@ -76,16 +79,19 @@ public class UltimateSkillController : MonoBehaviour
         if (cloneAttackTimer < 0)
         {
             cloneAttackTimer = cloneAttackCoolDown;
-            SkillManager.Instance.createClone.CreateClone(targets[random], new Vector3(SetUpOffSetX(), 0));
+            var createClone = SkillManager.Instance.createClone;
+            createClone.cloneAttackDamage = this.cloneAttackDamage;
+            createClone.CreateClone(targets[random], new Vector3(SetUpOffSetX(), 0));
             attackCount--;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<Enemy>() != null)
+        var enemyCollision = collision.GetComponent<Enemy>();
+        if ( enemyCollision != null)
         {
-            collision.GetComponent<Enemy>().Freeze(true);
+            enemyCollision.Freeze(true);
             AddEnemyToList(collision.transform);
         }
     }

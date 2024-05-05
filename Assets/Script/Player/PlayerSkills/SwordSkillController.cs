@@ -10,12 +10,13 @@ public class SwordSkillController : MonoBehaviour
     private List<Transform> enemyTarget;
     private bool canFly = true;
     private bool canReturn = false;
-    private bool canBounce = false;
-    private bool canPierce = false;
+    private bool isSwordBounce = false;
+    private bool isSwordPierce = false;
     private int bounceAmount;
     private int pierceAmount;
     private int targetIndex = 0;
     private float bounceSpeed;
+    public int swordDamage { get; set; }
 
 
     private void Awake()
@@ -45,29 +46,37 @@ public class SwordSkillController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.GetComponent<Enemy>()?.TakeDamageEffect();
-        if (collision.GetComponent<Enemy>() != null)
+        var enemyCollision = collision.GetComponent<Enemy>();
+        if (enemyCollision != null)
         {
-            BouncingTargetSetUp();
-            PierceSwordHandle();
+            enemyCollision.charStats.TakeDamageHP(swordDamage);
+            if(isSwordBounce)
+            {
+                BouncingTargetSetUp();
+            }
+            if (isSwordPierce)
+            {
+                PierceSwordHandle();
+            }
         }
         StuckInToTarget(collision);
     }
 
     #region SwordBounce
 
-    public void SetUpSwordBounce(int _amountOfBounce, float _bounceSpeed, bool _canBounce)
+    public void SetUpSwordBounce(int _amountOfBounce, float _bounceSpeed, bool _canBounce, int _swordDamage)
     {
         this.bounceAmount = _amountOfBounce;
         this.bounceSpeed = _bounceSpeed;
-        this.canBounce = _canBounce;
+        this.isSwordBounce = _canBounce;
+        this.swordDamage = _swordDamage;
         enemyTarget = new();
         SwordAnimationHandle(true);
     }
 
     private void BouncingHandle()
     {
-        if (canBounce && enemyTarget.Count > 0)
+        if (isSwordBounce && enemyTarget.Count > 0)
         {
             transform.position = Vector2.MoveTowards(transform.position, enemyTarget[targetIndex].position, bounceSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < .1f)
@@ -76,7 +85,7 @@ public class SwordSkillController : MonoBehaviour
                 bounceAmount--;
                 if (bounceAmount < 0)
                 {
-                    canBounce = false;
+                    isSwordBounce = false;
                     canReturn = true;
                 }
                 if (targetIndex >= enemyTarget.Count)
@@ -89,7 +98,7 @@ public class SwordSkillController : MonoBehaviour
 
     private void BouncingTargetSetUp()
     {
-        if (canBounce && enemyTarget.Count <= 0)
+        if (enemyTarget.Count <= 0)
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10);
             foreach (var hit in colliders)
@@ -105,32 +114,32 @@ public class SwordSkillController : MonoBehaviour
 
     #region SwordPierce
 
-    public void SetUpSwordPierce(int _pierceAmount, bool _canPierce)
+    public void SetUpSwordPierce(int _pierceAmount, bool _canPierce, int _swordDamage)
     {
         this.pierceAmount = _pierceAmount;
-        this.canPierce = _canPierce;
+        this.isSwordPierce = _canPierce;
+        this.swordDamage = _swordDamage;
     }
 
     private void PierceSwordHandle()
     {
-        if (canPierce)
-            pierceAmount--;
+        pierceAmount--;
         if (pierceAmount <= 0)
-            canPierce = false;
+            isSwordPierce = false;
     }
 
     #endregion
 
     private void StuckInToTarget(Collider2D collision)
     {
-        if (canPierce)
+        if (isSwordPierce)
             return;
 
         canFly = false;
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
-        if (canBounce && enemyTarget.Count > 0)
+        if (isSwordBounce && enemyTarget.Count > 0)
             return;
 
         cd2D.enabled = false;

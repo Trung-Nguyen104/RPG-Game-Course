@@ -495,8 +495,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   igniteColorEffect:
-  - {r: 1, g: 0.3647059, b: 0.3647059, a: 0}
-  - {r: 0.9529412, g: 0.5529412, b: 0.5529412, a: 0}
+  - {r: 1, g: 0.3647059, b: 0.3647059, a: 1}
+  - {r: 0.9529412, g: 0.5529412, b: 0.5529412, a: 1}
 --- !u!114 &142013892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,6 +556,7 @@ MonoBehaviour:
   isChilled: 0
   isShocked: 0
   igniteTimer: 0
+  igniteFXPrefabs: {fileID: 654094623659895902, guid: 0da7dd52904a05e438b98111be6ea359, type: 3}
 --- !u!1 &200292597
 GameObject:
   m_ObjectHideFlags: 0

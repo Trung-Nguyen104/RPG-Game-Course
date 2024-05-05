@@ -3,6 +3,7 @@ using UnityEngine;
 public class CloneSkillController : MonoBehaviour
 {
     [SerializeField] private Transform attackCheck;
+    [SerializeField] private int cloneAttackDamage;
     private float invisibleSpeed;
     private float cloneTimeDuration;
     private float cloneTimer;
@@ -32,11 +33,12 @@ public class CloneSkillController : MonoBehaviour
         }
     }
 
-    public void SetUpClone(Transform _cloneTransform, float _cloneTimeDuration, float _invisibleSpeed, Vector3 _offset)
+    public void SetUpClone(Transform _cloneTransform, float _cloneTimeDuration, float _invisibleSpeed, Vector3 _offset, int _cloneDamage)
     {
         transform.position = _cloneTransform.position + _offset;
         cloneTimeDuration = _cloneTimeDuration;
         invisibleSpeed = _invisibleSpeed;
+        cloneAttackDamage = _cloneDamage;
         cloneTimer = cloneTimeDuration;
         animator.SetInteger("AttackNumber", Random.Range(1, 4));
     }
@@ -54,7 +56,7 @@ public class CloneSkillController : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().TakeDamageEffect();
+                hit.GetComponent<Enemy>().charStats.TakeDamageHP(cloneAttackDamage);
             }
         }
 

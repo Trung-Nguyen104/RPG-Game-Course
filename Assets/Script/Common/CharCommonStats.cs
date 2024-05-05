@@ -223,27 +223,28 @@ public class CharCommonStats : MonoBehaviour
         bool canApplyChill = _iceDamage > _fireDamage && _iceDamage > _lightingDamage;
         bool canApplyShock = _lightingDamage > _fireDamage && _lightingDamage > _iceDamage;
 
-        /*while(!canApplyChill && !canApplyChill && !canApplyShock) 
+        /*if( !canApplyIgnite && !canApplyChill && !canApplyShock )
         {
-            if(_fireDamage > 0 && Random.value > 0.5f)
+            var randomValue = Random.Range(0, 90);
+            if( randomValue <= 30 )
             {
                 canApplyIgnite = true;
-                _targetStats.CheckStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
+                _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
                 Debug.Log("Fire");
                 return;
             }
-            if (_iceDamage > 0 && Random.value > 0.5f)
+            else if( 30 < randomValue && randomValue <= 60)
             {
                 canApplyChill = true;
-                _targetStats.CheckStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
-                Debug.Log("Ice");
+                _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
+                Debug.Log("Chill");
                 return;
             }
-            if (_lightingDamage > 0 && Random.value > 0.5f)
+            else if( 60 < randomValue && randomValue <= 90)
             {
                 canApplyShock = true;
-                _targetStats.CheckStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
-                Debug.Log("Lighting");
+                _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
+                Debug.Log("Shock");
                 return;
             }
         }*/

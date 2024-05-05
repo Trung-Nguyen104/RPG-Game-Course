@@ -5,11 +5,18 @@ public class CreateCloneSkill : Skill
     [SerializeField] private GameObject clonePrefab;
     [SerializeField] private float cloneTimeDuration;
     [SerializeField] private float invisibleSpeed;
+    [SerializeField] public int cloneAttackDamage;
 
     public void CreateClone(Transform _transform, Vector3 _offset)
     {
-        GameObject newClone = GameObject.Instantiate(clonePrefab);
-        newClone.GetComponent<CloneSkillController>().SetUpClone(_transform, cloneTimeDuration, invisibleSpeed, _offset);
-        newClone.GetComponent<CloneSkillController>().FaceToEnemySize(_offset);
+        var newClone = Instantiate(clonePrefab);
+        var newCloneController = newClone.GetComponent<CloneSkillController>();
+        HandleCloneController(_transform, _offset, newCloneController);
+    }
+
+    private void HandleCloneController(Transform _transform, Vector3 _offset, CloneSkillController newCloneController)
+    {
+        newCloneController.SetUpClone(_transform, cloneTimeDuration, invisibleSpeed, _offset, cloneAttackDamage);
+        newCloneController.FaceToEnemySize(_offset);
     }
 }
