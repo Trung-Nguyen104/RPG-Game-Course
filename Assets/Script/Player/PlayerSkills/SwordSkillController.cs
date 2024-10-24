@@ -49,7 +49,7 @@ public class SwordSkillController : MonoBehaviour
         var enemyCollision = collision.GetComponent<Enemy>();
         if (enemyCollision != null)
         {
-            enemyCollision.charStats.TakeDamageHP(swordDamage);
+            player.charStats.HandleMagicalDamage(enemyCollision.charStats);
             if(isSwordBounce)
             {
                 BouncingTargetSetUp();
@@ -125,7 +125,9 @@ public class SwordSkillController : MonoBehaviour
     {
         pierceAmount--;
         if (pierceAmount <= 0)
+        {
             isSwordPierce = false;
+        }
     }
 
     #endregion
@@ -133,14 +135,18 @@ public class SwordSkillController : MonoBehaviour
     private void StuckInToTarget(Collider2D collision)
     {
         if (isSwordPierce)
-            return;
+        { 
+            return; 
+        }
 
         canFly = false;
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         if (isSwordBounce && enemyTarget.Count > 0)
-            return;
+        { 
+            return; 
+        }
 
         cd2D.enabled = false;
         transform.parent = collision.transform;

@@ -13,6 +13,7 @@ public class Enemy : CharCommonBehavior
     [Header("CounterAttack")]
     [SerializeField] public GameObject counterSignal;
     [SerializeField] public float stunDuration;
+    public bool beCountered = false;
     protected bool canBeCounter;
 
     [Header("PlayerDetection")]
@@ -25,13 +26,16 @@ public class Enemy : CharCommonBehavior
     {
         base.Awake();
         stateMachine = new EnemyStateMachine();
-        
     }
 
     protected override void Update()
     {
         base.Update();
         stateMachine.currentState.Update();
+        if (canBeCounter)
+        {
+            isTakeDamged = false;
+        }
     }
 
     public virtual RaycastHit2D PlayerDetected() => Physics2D.Raycast(horizontalCheck.position, Vector2.right * facingDir, sawPlayerDistance, playerLayer);
@@ -54,6 +58,7 @@ public class Enemy : CharCommonBehavior
     public virtual void CloseCounterSignal()
     {
         canBeCounter = false;
+        beCountered = false;
         counterSignal.SetActive(false);
     }
 
@@ -61,7 +66,6 @@ public class Enemy : CharCommonBehavior
     {
         if (canBeCounter)
         {
-            CloseCounterSignal();
             return true;
         }
         return false;
@@ -81,5 +85,4 @@ public class Enemy : CharCommonBehavior
             animator.speed = 1;
         }
     }
-
 }

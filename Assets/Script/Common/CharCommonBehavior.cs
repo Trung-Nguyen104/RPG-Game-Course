@@ -7,7 +7,6 @@ public class CharCommonBehavior : MonoBehaviour
     [Header("KnockBack")]
     [SerializeField] public float knockBackForce;
     [SerializeField] protected float knockBackTime;
-    protected bool isTakeDamged;
 
     [Header("Collision Check")]
     [SerializeField] public Transform attackCheck;
@@ -20,6 +19,7 @@ public class CharCommonBehavior : MonoBehaviour
 
     public float facingDir { get; private set; } = 1;
     public bool wasDead { get; set; }
+    protected bool isTakeDamged { get; set; }
 
     protected bool facingRight = true;
 

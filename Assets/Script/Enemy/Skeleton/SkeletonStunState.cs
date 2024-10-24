@@ -30,7 +30,7 @@ public class SkeletonStunState : EnemyState
 
     private void HandleStunKnockBack()
     {
-        var knockBackForce = skeleton.knockBackForce + Random.Range(1, 5);
+        var knockBackForce = skeleton.knockBackForce + Random.Range(1, 3);
         enemy.fx.InvokeRepeating("StunEffect", 0, .1f);
         rb.AddForce(new Vector2(1 * -skeleton.facingDir, 1) * knockBackForce, ForceMode2D.Impulse);
     }

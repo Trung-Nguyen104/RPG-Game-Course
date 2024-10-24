@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimTriggers : MonoBehaviour
 {
     private Player player => GetComponentInParent<Player>();
-    
+
 
     private void AnimationTrigger()
     {
@@ -18,16 +16,17 @@ public class PlayerAnimTriggers : MonoBehaviour
 
         foreach (var hit in attackCollider)
         {
-            if (hit.GetComponent<Enemy>() != null)
+            var enemy = hit.GetComponent<Enemy>();
+            if (enemy != null)
             {
-                var enemy = hit.GetComponent<Enemy>();
                 var enemyTarget = hit.GetComponent<CharCommonStats>();
-                
-                if (!enemy.CanBeStun())
-                    player.charStats.HandleDamage(enemyTarget);
+                if (enemy.CanBeStun())
+                {
+                    enemy.beCountered = true;
+                }
+                player.charStats.HandleDamage(enemyTarget);
             }
         }
-
     }
 
     private void ThrowSword()

@@ -47,17 +47,12 @@ public class SkeletonEnemy : Enemy
             {
                 stateMachine.ChangeState(takeDamgeState);
             }
+            if(beCountered)
+            {
+                stateMachine.ChangeState(stunState);
+                CloseCounterSignal();
+            }
         }
-    }
-
-    public override bool CanBeStun()
-    {
-        if (base.CanBeStun())
-        {
-            stateMachine.ChangeState(stunState);
-            return true;
-        }
-        return false;
     }
 
     public override void DeadEffect()

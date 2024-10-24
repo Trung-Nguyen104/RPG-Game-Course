@@ -49,10 +49,13 @@ public class ThrowSwordSkill : Skill
         SetUpTrajectoryLine();
 
         if (trajectoryLineEnabled)
+        {
             TrajectoryLineController();
-
+        }
         if (Input.GetKeyUp(KeyCode.H))
+        {
             aimDirection = new Vector2(inputX, inputY);
+        }
     }
 
     public void CreateSword()
@@ -129,11 +132,11 @@ public class ThrowSwordSkill : Skill
         trajectoryLineEnabled = _isActive;
     }
 
-    private Vector2 TrajectoryLinePosition(float t)
+    private Vector2 TrajectoryLinePosition(float _lineLength)
     {
         Vector2 position = (Vector2)player.transform.position
-                            + new Vector2(inputX, inputY) * t
-                            + (t * t) * .5f * (Physics2D.gravity * SetUpGravity());
+                            + new Vector2(inputX, inputY) * _lineLength
+                            + (_lineLength * _lineLength) * .5f * (Physics2D.gravity * SetUpGravity());
         return position;
     }
     #endregion

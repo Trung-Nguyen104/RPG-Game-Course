@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarUI : MonoBehaviour
+public class UI_HealthBar : MonoBehaviour
 {
     private Slider uiSlider => GetComponentInChildren<Slider>();
     private CharCommonStats charCommonStats => GetComponentInParent<CharCommonStats>();

@@ -4,24 +4,24 @@ public class CharCommonStats : MonoBehaviour
 {
     public int currHP;
 
-    [Header("Main Indicatiors")]
+    [Header("Major Stats")]
     public Stats strength;
     public Stats agility;
     public Stats intelligence;
     public Stats vitality;
 
-    [Header("Defensive Indicatiors")]
+    [Header("Defensive Stats")]
     public Stats health;
     public Stats armor;
     public Stats evasion;
     public Stats magicResistance;
 
-    [Header("Damage Indicatiors")]
+    [Header("Damage Stats")]
     public Stats physicDamage;
     public Stats criticalRate;
     public Stats criticalDamage;
 
-    [Header("Magic Indicatiors")]
+    [Header("Magic Stats")]
     public Stats fireDamage;
     public Stats iceDamage;
     public Stats lightingDamage;
@@ -80,8 +80,8 @@ public class CharCommonStats : MonoBehaviour
             Debug.Log("Crit Damage");
             totalDamage = HandleCriticalDamage(totalDamage);
         }
-        //_targetStats.TakeDamageHP(totalDamage);
-        HandleMagicalDamage(_targetStats);
+        _targetStats.TakeDamageHP(totalDamage);
+        //HandleMagicalDamage(_targetStats);
     }
 
     public virtual void HandleMagicalDamage(CharCommonStats _targetStats)
@@ -117,7 +117,7 @@ public class CharCommonStats : MonoBehaviour
 
     protected virtual void HandleDie()
     {
-        Debug.Log(gameObject + "Died");
+        Debug.Log("Player Died");
     }
 
 

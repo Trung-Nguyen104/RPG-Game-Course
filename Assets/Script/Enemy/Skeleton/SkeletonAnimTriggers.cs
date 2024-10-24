@@ -16,7 +16,8 @@ public class SkeletonAnimTriggers : MonoBehaviour
 
         foreach (var hit in attackCollider)
         {
-            if (hit.GetComponent<Player>() != null)
+            var player = hit.GetComponent<Player>();
+            if (player != null)
             {
                 var playerTarget =  hit.GetComponent<CharCommonStats>();
                 skeleton.charStats.HandleDamage(playerTarget);

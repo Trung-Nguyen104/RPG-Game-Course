@@ -5,6 +5,51 @@ using UnityEngine;
 public class EnemyStats : CharCommonStats
 {
     private Enemy enemy;
+    private ItemDrop itemDrop;
+
+    [Header("Level")]
+    [SerializeField] private int level;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float percentageModifier;
+
+    protected override void Start()
+    {
+        ApplyLevelModifiers();
+        base.Start();
+        enemy = GetComponent<Enemy>();
+        itemDrop = GetComponent<ItemDrop>();
+    }
+
+    private void ApplyLevelModifiers()
+    {
+        Modify(strength);
+        Modify(agility);
+        Modify(intelligence);
+        Modify(vitality);
+
+        Modify(health);
+        Modify(armor);
+        Modify(evasion);
+        Modify(magicResistance);
+
+        Modify(physicDamage);
+        Modify(criticalRate);
+        Modify(criticalDamage);
+
+        Modify(fireDamage);
+        Modify(iceDamage);
+        Modify(lightingDamage);
+    }
+
+    private void Modify(Stats stats)
+    {
+        for (int i = 1; i < level; i++)
+        {
+            var modifier = stats.GetValue() * percentageModifier;
+            stats.AddModifier(Mathf.RoundToInt(modifier));
+        }
+    }
 
     public override void TakeDamageHP(int _damage)
     {
@@ -16,11 +61,6 @@ public class EnemyStats : CharCommonStats
     {
         base.HandleDie();
         enemy.DeadEffect();
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-        enemy = GetComponent<Enemy>();
+        itemDrop.GenerateDrop();
     }
 }

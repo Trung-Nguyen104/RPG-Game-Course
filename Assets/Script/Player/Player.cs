@@ -96,6 +96,7 @@ public class Player : CharCommonBehavior
         base.DeadEffect();
         wasDead = true;
         playerStateMachine.ChangeState(dieState);
+        Inventory.Instance.LoseAllItems();
     }
 
     public float PlayerInputHorizontal() => Input.GetAxisRaw("Horizontal");

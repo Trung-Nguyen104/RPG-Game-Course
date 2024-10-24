@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 8331742790415815649}
   - component: {fileID: 5017476274599235466}
   - component: {fileID: 4561921632155909279}
+  - component: {fileID: 6472342772664868287}
   m_Layer: 8
   m_Name: Enemy_skeleton
   m_TagString: Untagged
@@ -249,6 +250,7 @@ MonoBehaviour:
   moveSpeed: 1
   counterSignal: {fileID: 3283135184425413027}
   stunDuration: 1.5
+  beCountered: 0
   sawPlayerMoveSpeed: 2
   sawPlayerDistance: 7
   attackPlayerDistance: 2.2
@@ -327,6 +329,27 @@ MonoBehaviour:
   isShocked: 0
   igniteTimer: 0
   igniteFXPrefabs: {fileID: 654094623659895902, guid: 0da7dd52904a05e438b98111be6ea359, type: 3}
+  level: 0
+  percentageModifier: 0
+--- !u!114 &6472342772664868287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3016064114320747024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5233f68228cf2c54e80abb3f3f6a642e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemData: {fileID: 0}
+  dropPrefab: {fileID: 7923728094381664036, guid: aa952661071fbb94d813e77a5c666a36, type: 3}
+  itemDropList:
+  - {fileID: 11400000, guid: 23fd694910369b24aa26afd3cccdd620, type: 2}
+  - {fileID: 11400000, guid: 11d91414246b4e740940bab93d81eff7, type: 2}
+  - {fileID: 11400000, guid: 8a0dcacafa660ff44a4edfddef780b53, type: 2}
+  - {fileID: 11400000, guid: 515b20e971e9d1b48927357001bab6a2, type: 2}
 --- !u!1 &3283135184425413027
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,7 +866,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1197877103
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: -85727878, guid: 687df074731fbf744b668d2275dbb675, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
