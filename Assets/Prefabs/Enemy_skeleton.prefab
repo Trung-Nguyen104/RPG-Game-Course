@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 8331742790415815649}
   - component: {fileID: 5017476274599235466}
   - component: {fileID: 4561921632155909279}
-  - component: {fileID: 6472342772664868287}
+  - component: {fileID: 457178679447147150}
   m_Layer: 8
   m_Name: Enemy_skeleton
   m_TagString: Untagged
@@ -232,8 +232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd3a99918265a0438b9a9e7687ec828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockBackForce: 3
-  knockBackTime: 0.5
+  knockBackForce: 0.5
+  knockBackTime: 0.2
   attackCheck: {fileID: 2548919131495453220}
   attackCheckRadius: 1.3
   groundCheck: {fileID: 512273778359999593}
@@ -269,6 +269,10 @@ MonoBehaviour:
   igniteColorEffect:
   - {r: 1, g: 0.3647059, b: 0.3647059, a: 1}
   - {r: 0.9529412, g: 0.5529412, b: 0.5529412, a: 1}
+  chillColorEffect: {r: 0, g: 0.747118, b: 1, a: 0}
+  shockColorEffect:
+  - {r: 1, g: 0.8875866, b: 0.033018887, a: 0}
+  - {r: 0.8301887, g: 0.76867, b: 0, a: 0}
 --- !u!114 &4561921632155909279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +298,7 @@ MonoBehaviour:
   vitality:
     baseValue: 0
     modifiers: 
-  health:
+  maxHealth:
     baseValue: 1000
     modifiers: 
   armor:
@@ -328,10 +332,9 @@ MonoBehaviour:
   isChilled: 0
   isShocked: 0
   igniteTimer: 0
-  igniteFXPrefabs: {fileID: 654094623659895902, guid: 0da7dd52904a05e438b98111be6ea359, type: 3}
   level: 0
   percentageModifier: 0
---- !u!114 &6472342772664868287
+--- !u!114 &457178679447147150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -343,13 +346,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5233f68228cf2c54e80abb3f3f6a642e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemData: {fileID: 0}
   dropPrefab: {fileID: 7923728094381664036, guid: aa952661071fbb94d813e77a5c666a36, type: 3}
   itemDropList:
-  - {fileID: 11400000, guid: 23fd694910369b24aa26afd3cccdd620, type: 2}
-  - {fileID: 11400000, guid: 11d91414246b4e740940bab93d81eff7, type: 2}
+  - {fileID: 11400000, guid: 818a948542743e74cb4a1aa5231ca3bf, type: 2}
+  - {fileID: 11400000, guid: a71e5fd52a123904084e3b77412abefa, type: 2}
   - {fileID: 11400000, guid: 8a0dcacafa660ff44a4edfddef780b53, type: 2}
-  - {fileID: 11400000, guid: 515b20e971e9d1b48927357001bab6a2, type: 2}
 --- !u!1 &3283135184425413027
 GameObject:
   m_ObjectHideFlags: 0

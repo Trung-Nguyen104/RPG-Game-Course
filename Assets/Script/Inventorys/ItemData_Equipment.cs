@@ -11,6 +11,7 @@ public enum EquipmentType
 public class ItemData_Equipment : ItemData
 {
     public EquipmentType equipmentType;
+    public Item_Effect[] itemEffects;
 
     [Header("Major Stats")]
     public int strength;
@@ -34,16 +35,24 @@ public class ItemData_Equipment : ItemData
     public int iceDamage;
     public int lightingDamage;
 
+    public void ExecuteItemEfftect(Transform targetPosition)
+    {
+        foreach (var item in itemEffects)
+        {
+            item.ExecuteEffect(targetPosition);
+        }
+    }
+
     public void AddModifiers()
     {
-        var playerStats = PlayerManager.Instance.player.GetComponent<PlayerStats>();
+        var playerStats = PlayerManager.Instance.Player.GetComponent<PlayerStats>();
 
         playerStats.strength.AddModifier(strength);
         playerStats.agility.AddModifier(agility);
         playerStats.intelligence.AddModifier(intelligence);
         playerStats.vitality.AddModifier(vitality);
 
-        playerStats.health.AddModifier(health);
+        playerStats.maxHealth.AddModifier(health);
         playerStats.armor.AddModifier(armor);
         playerStats.evasion.AddModifier(evasion);
         playerStats.magicResistance.AddModifier(magicResistance);
@@ -59,14 +68,14 @@ public class ItemData_Equipment : ItemData
 
     public void RemoveModifiers() 
     {
-        var playerStats = PlayerManager.Instance.player.GetComponent<PlayerStats>();
+        var playerStats = PlayerManager.Instance.Player.GetComponent<PlayerStats>();
 
         playerStats.strength.RemoveModifier(strength);
         playerStats.agility.RemoveModifier(agility);
         playerStats.intelligence.RemoveModifier(intelligence);
         playerStats.vitality.RemoveModifier(vitality);
 
-        playerStats.health.RemoveModifier(health);
+        playerStats.maxHealth.RemoveModifier(health);
         playerStats.armor.RemoveModifier(armor);
         playerStats.evasion.RemoveModifier(evasion);
         playerStats.magicResistance.RemoveModifier(magicResistance);

@@ -5,8 +5,11 @@ using UnityEngine;
 public class EntityFX : MonoBehaviour
 {
     private SpriteRenderer sr;
+
+    [Header("Ailment Colors")]
     [SerializeField] private Color[] igniteColorEffect;
-    private bool igniteBool;
+    [SerializeField] private Color chillColorEffect;
+    [SerializeField] private Color[] shockColorEffect;
 
     private void Start()
     {
@@ -21,9 +24,9 @@ public class EntityFX : MonoBehaviour
             sr.color = Color.red;
     }
 
-    public void IgniteEffect(float _igniteDuration)
+    public void IgniteEffectFor(float _igniteDuration)
     {
-        InvokeRepeating(nameof(IgniteFx), 0, 0.3f);
+        InvokeRepeating(nameof(IgniteFx), 0, 0.5f);
         Invoke(nameof(CancelEffect), _igniteDuration);
     }
 

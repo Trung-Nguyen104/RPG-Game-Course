@@ -18,19 +18,19 @@ public class SkeletonEnemy : Enemy
     {
         base.Awake();
 
-        idleState = new SkeletonIdleState(this, stateMachine, "Idle", this);
-        moveState = new SkeletonMoveState(this, stateMachine, "Move", this);
-        sawPlayerState = new SkeletonSawPlayerState(this, stateMachine, "Move", this);
-        attackState = new SkeletonAttackState(this, stateMachine, "Attack", this);
-        takeDamgeState = new SkeletonTakeDamgeState(this, stateMachine, "TakeDamge", this);
-        stunState = new SkeletonStunState(this, stateMachine, "Stunned", this);
-        deadState = new SkeletonDeadState(this, stateMachine, "Dead", this);
+        idleState = new SkeletonIdleState(this, StateMachine, "Idle", this);
+        moveState = new SkeletonMoveState(this, StateMachine, "Move", this);
+        sawPlayerState = new SkeletonSawPlayerState(this, StateMachine, "Move", this);
+        attackState = new SkeletonAttackState(this, StateMachine, "Attack", this);
+        takeDamgeState = new SkeletonTakeDamgeState(this, StateMachine, "TakeDamge", this);
+        stunState = new SkeletonStunState(this, StateMachine, "Stunned", this);
+        deadState = new SkeletonDeadState(this, StateMachine, "Dead", this);
     }
 
     protected override void Start()
     {
         base.Start();
-        stateMachine.Initialize(idleState);
+        StateMachine.Initialize(idleState);
     }
 
     protected override void Update()
@@ -39,17 +39,17 @@ public class SkeletonEnemy : Enemy
         
         if(wasDead)
         {
-            stateMachine.ChangeState(deadState);
+            StateMachine.ChangeState(deadState);
         }
         else
         {
             if (isTakeDamged)
             {
-                stateMachine.ChangeState(takeDamgeState);
+                StateMachine.ChangeState(takeDamgeState);
             }
             if(beCountered)
             {
-                stateMachine.ChangeState(stunState);
+                StateMachine.ChangeState(stunState);
                 CloseCounterSignal();
             }
         }
@@ -60,6 +60,6 @@ public class SkeletonEnemy : Enemy
         base.DeadEffect();
         animator.speed = 0;
         wasDead = true;
-        stateMachine.ChangeState(deadState);
+        StateMachine.ChangeState(deadState);
     }
 }

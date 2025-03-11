@@ -6,10 +6,11 @@ public class PlayerManager : MonoBehaviour
 {
     private static PlayerManager instance;
     public static PlayerManager Instance { get => instance; }
-    public Player player;
+    public Player Player {  get; private set; }
     private PlayerManager() {}
     private void Awake()
     {
+        Player = GameObject.Find("PlayerManager/Player").GetComponent<Player>();
         if (instance != null)
         {
             Destroy(instance.gameObject);
@@ -19,5 +20,4 @@ public class PlayerManager : MonoBehaviour
             PlayerManager.instance = this;
         }
     }
-    
 }

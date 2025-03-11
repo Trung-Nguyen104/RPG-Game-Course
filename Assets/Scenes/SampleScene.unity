@@ -140,6 +140,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_skeleton (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3016064114320747024, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7379702646850186256, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.86
@@ -894,8 +898,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   igniteColorEffect:
-  - {r: 1, g: 0.3647059, b: 0.3647059, a: 1}
-  - {r: 0.9529412, g: 0.5529412, b: 0.5529412, a: 1}
+  - {r: 0.8773585, g: 0.012415428, b: 0.012415428, a: 1}
+  - {r: 1, g: 0.18396229, b: 0.18396229, a: 1}
+  chillColorEffect: {r: 0, g: 0.5368216, b: 0.7735849, a: 0}
+  shockColorEffect:
+  - {r: 0.8396226, g: 0.77324796, b: 0, a: 0}
+  - {r: 0.9056604, g: 0.84230477, b: 0.16660735, a: 0}
 --- !u!114 &142013892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -921,8 +929,8 @@ MonoBehaviour:
   vitality:
     baseValue: 0
     modifiers: 
-  health:
-    baseValue: 50
+  maxHealth:
+    baseValue: 500
     modifiers: 
   armor:
     baseValue: 0
@@ -943,7 +951,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   fireDamage:
-    baseValue: 50
+    baseValue: 0
     modifiers: 
   iceDamage:
     baseValue: 0
@@ -955,7 +963,6 @@ MonoBehaviour:
   isChilled: 0
   isShocked: 0
   igniteTimer: 0
-  igniteFXPrefabs: {fileID: 654094623659895902, guid: 0da7dd52904a05e438b98111be6ea359, type: 3}
 --- !u!1 &200292597
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,7 +992,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b8490644d84c14bb4744f1cf2ba17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 142013887}
 --- !u!4 &200292599
 Transform:
   m_ObjectHideFlags: 0
@@ -5151,6 +5157,10 @@ PrefabInstance:
     - target: {fileID: 3016064114320747024, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
       propertyPath: m_Name
       value: Enemy_skeleton (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3016064114320747024, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7379702646850186256, guid: 56c324e10a3cb8641ba61b00eb995ae7, type: 3}
       propertyPath: m_LocalPosition.x

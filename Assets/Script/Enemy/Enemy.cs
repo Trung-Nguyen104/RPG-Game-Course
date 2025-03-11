@@ -20,18 +20,18 @@ public class Enemy : CharCommonBehavior
     [SerializeField] public float sawPlayerMoveSpeed;
     [SerializeField] public float sawPlayerDistance;
     [SerializeField] public float attackPlayerDistance;
-    public EnemyStateMachine stateMachine { get; private set; }
+    public EnemyStateMachine StateMachine { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
-        stateMachine = new EnemyStateMachine();
+        StateMachine = new EnemyStateMachine();
     }
 
     protected override void Update()
     {
         base.Update();
-        stateMachine.currentState.Update();
+        StateMachine.currentState.Update();
         if (canBeCounter)
         {
             isTakeDamged = false;
@@ -39,7 +39,7 @@ public class Enemy : CharCommonBehavior
     }
 
     public virtual RaycastHit2D PlayerDetected() => Physics2D.Raycast(horizontalCheck.position, Vector2.right * facingDir, sawPlayerDistance, playerLayer);
-    public virtual void AnimationTrigger() => stateMachine.currentState.AnimCalledTrigger();
+    public virtual void AnimationTrigger() => StateMachine.currentState.AnimCalledTrigger();
 
     protected override void OnDrawGizmos()
     {
@@ -84,5 +84,17 @@ public class Enemy : CharCommonBehavior
             moveSpeed = 1;
             animator.speed = 1;
         }
+    }
+
+    public virtual void FreezaTimeFor(float _duration)
+    {
+        StartCoroutine(FreezeCoroutine(_duration));
+    }
+
+    protected virtual IEnumerator FreezeCoroutine(float _seconds)
+    {
+        Freeze(true);
+        yield return new WaitForSeconds(_seconds);
+        Freeze(false);
     }
 }

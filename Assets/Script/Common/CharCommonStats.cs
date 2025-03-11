@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharCommonStats : MonoBehaviour
@@ -11,7 +12,7 @@ public class CharCommonStats : MonoBehaviour
     public Stats vitality;
 
     [Header("Defensive Stats")]
-    public Stats health;
+    public Stats maxHealth;
     public Stats armor;
     public Stats evasion;
     public Stats magicResistance;
@@ -32,7 +33,6 @@ public class CharCommonStats : MonoBehaviour
 
     private float igniteDuration = 5f;
     public float igniteTimer;
-    public GameObject igniteFXPrefabs;
     private int igniteDamage;
     private float chillDuration = 3f;
     private float chillTimer;
@@ -46,7 +46,7 @@ public class CharCommonStats : MonoBehaviour
 
     protected virtual void Start()
     {
-        currHP = SetUpCurrentHealth();
+        currHP = GetMaxHealth();
         criticalDamage.SetDefaultValue(150);
         fx = GetComponent<EntityFX>();
     }
@@ -77,11 +77,9 @@ public class CharCommonStats : MonoBehaviour
         }
         if (CheckCanCritical())
         {
-            Debug.Log("Crit Damage");
             totalDamage = HandleCriticalDamage(totalDamage);
         }
         _targetStats.TakeDamageHP(totalDamage);
-        //HandleMagicalDamage(_targetStats);
     }
 
     public virtual void HandleMagicalDamage(CharCommonStats _targetStats)
@@ -106,6 +104,20 @@ public class CharCommonStats : MonoBehaviour
         }
     }
 
+    public virtual void IncreaseHealth(int _amount)
+    {
+        currHP += _amount;
+
+        if(currHP > GetMaxHealth())
+        {
+            currHP = GetMaxHealth();
+        }
+        if(onHealthChanged != null)
+        {
+            onHealthChanged();
+        }
+    }
+
     protected virtual void DecreaseHealth(int _damage)
     {
         currHP -= _damage;
@@ -117,7 +129,6 @@ public class CharCommonStats : MonoBehaviour
 
     protected virtual void HandleDie()
     {
-        Debug.Log("Player Died");
     }
 
 
@@ -139,7 +150,6 @@ public class CharCommonStats : MonoBehaviour
     {
         var critDamage = criticalDamage.GetValue() + strength.GetValue();
         var totalCritDamage = _totalDamage * critDamage / 100;
-        Debug.Log(totalCritDamage);
         return totalCritDamage;
     }
 
@@ -149,7 +159,6 @@ public class CharCommonStats : MonoBehaviour
         igniteTimer += Time.deltaTime;
         if (igniteTimer > igniteDamageSpeed && isIgnited)
         {
-            Debug.Log("Ignite Damage : " + igniteDamage);
             DecreaseHealth(igniteDamage);
             igniteDamageSpeed ++;
         }
@@ -159,14 +168,6 @@ public class CharCommonStats : MonoBehaviour
             igniteDamageSpeed = 1;
             igniteTimer = 0;
         }
-    }
-
-    private void HandleIgniteFX()
-    {
-        fx.IgniteEffect(igniteDuration);
-        var igniteFX = Instantiate(igniteFXPrefabs, transform.position, Quaternion.identity);
-        var igniteFXContr = igniteFX.GetComponent<IgniteFxController>();
-        igniteFXContr.SetUpIgnite(transform, igniteDuration);
     }
 
     private void HandleChillDuration()
@@ -219,35 +220,35 @@ public class CharCommonStats : MonoBehaviour
             return;
         }
 
-        bool canApplyIgnite = _fireDamage > _iceDamage && _fireDamage > _lightingDamage;
-        bool canApplyChill = _iceDamage > _fireDamage && _iceDamage > _lightingDamage;
-        bool canApplyShock = _lightingDamage > _fireDamage && _lightingDamage > _iceDamage;
+        bool canApplyIgnite = _fireDamage > (_iceDamage + _lightingDamage);
+        bool canApplyChill = _iceDamage > (_fireDamage + _lightingDamage);
+        bool canApplyShock = _lightingDamage > (_fireDamage + _iceDamage);
 
-        /*if( !canApplyIgnite && !canApplyChill && !canApplyShock )
-        {
-            var randomValue = Random.Range(0, 90);
-            if( randomValue <= 30 )
-            {
-                canApplyIgnite = true;
-                _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
-                Debug.Log("Fire");
-                return;
-            }
-            else if( 30 < randomValue && randomValue <= 60)
-            {
-                canApplyChill = true;
-                _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
-                Debug.Log("Chill");
-                return;
-            }
-            else if( 60 < randomValue && randomValue <= 90)
-            {
-                canApplyShock = true;
-                _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
-                Debug.Log("Shock");
-                return;
-            }
-        }*/
+        //if( !canApplyIgnite && !canApplyChill && !canApplyShock )
+        //{
+        //    var randomValue = Random.Range(0, 90);
+        //    if( randomValue <= 30 )
+        //    {
+        //        canApplyIgnite = true;
+        //        _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
+        //        Debug.Log("Fire");
+        //        return;
+        //    }
+        //    else if( 30 < randomValue && randomValue <= 60)
+        //    {
+        //        canApplyChill = true;
+        //        _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
+        //        Debug.Log("Chill");
+        //        return;
+        //    }
+        //    else if( 60 < randomValue && randomValue <= 90)
+        //    {
+        //        canApplyShock = true;
+        //        _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
+        //        Debug.Log("Shock");
+        //        return;
+        //    }
+        //}
 
         if (canApplyIgnite)
         {
@@ -264,18 +265,35 @@ public class CharCommonStats : MonoBehaviour
         {
             return;
         }
-        
-        if(_ignited)
-        {
+
+        if (_ignited)
+        { 
             isIgnited = _ignited;
-            HandleIgniteFX();
+            fx.IgniteEffectFor(5);
         }
-        isChilled = _chilled;
-        isShocked = _shocked;
+        if (_chilled)
+        {
+            isChilled = _chilled;
+        }
+        if (_shocked)
+        {
+            isShocked = _shocked;
+        }
     }
 
     public virtual void SetUpIgniteDamage(int _igniteDamage) => igniteDamage = _igniteDamage;
 
-    public virtual int SetUpCurrentHealth() => health.GetValue() + (vitality.GetValue() * 5);
+    public virtual int GetMaxHealth() => maxHealth.GetValue() + (vitality.GetValue() * 5);
 
+    public virtual void IncreaseStatsBy(int _modifier, float _duration, Stats _statsToMofify)
+    {
+        StartCoroutine(StatsModifierCoroutine(_modifier, _duration, _statsToMofify));
+    }
+
+    private IEnumerator StatsModifierCoroutine(int _modifier, float _duration, Stats _statsToMofify)
+    {
+        _statsToMofify.AddModifier(_modifier);
+        yield return new WaitForSeconds(_duration);
+        _statsToMofify.RemoveModifier(_modifier);
+    }
 }

@@ -16,8 +16,7 @@ public class PlayerAnimTriggers : MonoBehaviour
 
         foreach (var hit in attackCollider)
         {
-            var enemy = hit.GetComponent<Enemy>();
-            if (enemy != null)
+            if (hit.TryGetComponent<Enemy>(out var enemy))
             {
                 var enemyTarget = hit.GetComponent<CharCommonStats>();
                 if (enemy.CanBeStun())
@@ -25,6 +24,11 @@ public class PlayerAnimTriggers : MonoBehaviour
                     enemy.beCountered = true;
                 }
                 player.charStats.HandleDamage(enemyTarget);
+                var weaponData = Inventory.Instance.GetEquipment(EquipmentType.Weapon);
+                if (weaponData != null)
+                {
+                    weaponData.ExecuteItemEfftect(enemyTarget.transform);
+                }
             }
         }
     }

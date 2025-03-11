@@ -31,7 +31,7 @@ public class UI_HealthBar : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        uiSlider.maxValue = charCommonStats.SetUpCurrentHealth();
+        uiSlider.maxValue = charCommonStats.GetMaxHealth();
         uiSlider.value = charCommonStats.currHP;
     }
 

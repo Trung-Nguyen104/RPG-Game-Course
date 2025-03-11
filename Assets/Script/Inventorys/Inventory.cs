@@ -116,7 +116,6 @@ public class Inventory : MonoBehaviour
 
         foreach (var item in equipmentDictionary)
         {
-            Debug.Log(item.Key.equipmentType + "-" + newEquipItem.equipmentType);
             if (item.Key.equipmentType == newEquipItem.equipmentType)
             {
                 itemToUnequip = item.Key;
@@ -163,13 +162,27 @@ public class Inventory : MonoBehaviour
         inventoryDictionary.Clear();
     }
 
+     public ItemData_Equipment GetEquipment(EquipmentType type)
+    {
+        ItemData_Equipment equipedItem = null;
+        foreach (var item in equipmentDictionary)
+        {
+            if (item.Key.equipmentType == type)
+            {
+                equipedItem = item.Key;
+            }
+        }
+        return equipedItem;
+    }
+
     private void DropItem(ItemData _itemData)
     {
-        var playerTransfrom = PlayerManager.Instance.player.transform;
+        var playerTransfrom = PlayerManager.Instance.Player.transform;
         var instantiateDrop = Instantiate(dropPrefab, playerTransfrom.position, Quaternion.identity);
         int xRandomRange = Random.Range(-5, 5);
         int yRandomRange = Random.Range(10, 15);
         Vector2 randomVelocity = new Vector2(xRandomRange, yRandomRange);
         instantiateDrop.GetComponent<ItemObject>().SetupItem(_itemData, randomVelocity);
     }
+
 }

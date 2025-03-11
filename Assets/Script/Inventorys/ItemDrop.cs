@@ -17,6 +17,7 @@ public class ItemDrop : MonoBehaviour
 
     private void DropItem(ItemData _itemData)
     {
+        Debug.Log(_itemData.name);
         var instantiateDrop = Instantiate(dropPrefab, transform.position, Quaternion.identity);
         int xRandomRange = Random.Range(-5, 5);
         int yRandomRange = Random.Range(10, 15);

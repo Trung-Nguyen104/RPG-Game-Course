@@ -28,7 +28,7 @@ public class EnemyStats : CharCommonStats
         Modify(intelligence);
         Modify(vitality);
 
-        Modify(health);
+        Modify(maxHealth);
         Modify(armor);
         Modify(evasion);
         Modify(magicResistance);
@@ -62,5 +62,6 @@ public class EnemyStats : CharCommonStats
         base.HandleDie();
         enemy.DeadEffect();
         itemDrop.GenerateDrop();
+        Debug.Log("handle die ");
     }
 }

@@ -23,7 +23,7 @@ public class Player : CharCommonBehavior
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
-    public PlayerAIrState airState { get; private set; }
+    public PlayerAirState airState { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerWallSildeState wallSlideState { get; private set; }
     public PlayerWallJumpState wallJumpState { get; private set; }
@@ -43,7 +43,7 @@ public class Player : CharCommonBehavior
         idleState = new PlayerIdleState(this, playerStateMachine, "Idle");
         moveState = new PlayerMoveState(this, playerStateMachine, "Move");
         jumpState = new PlayerJumpState(this, playerStateMachine, "Jump");
-        airState = new PlayerAIrState(this, playerStateMachine, "Jump");
+        airState = new PlayerAirState(this, playerStateMachine, "Jump");
         dashState = new PlayerDashState(this, playerStateMachine, "Dash");
         wallSlideState = new PlayerWallSildeState(this, playerStateMachine, "WallSlide");
         wallJumpState = new PlayerWallJumpState(this, playerStateMachine, "Jump");

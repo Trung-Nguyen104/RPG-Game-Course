@@ -3,7 +3,7 @@ using UnityEngine;
 public class SkeletonGroundState : EnemyState
 {
     protected SkeletonEnemy skeleton;
-    protected Transform player;
+    protected Transform playerTransform;
     public SkeletonGroundState(Enemy _enemy, EnemyStateMachine _stateMachine, string animBoolName, SkeletonEnemy _skeleton) : base(_enemy, _stateMachine, animBoolName)
     {
         this.skeleton = _skeleton;
@@ -12,7 +12,7 @@ public class SkeletonGroundState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        player = PlayerManager.Instance.player.transform;
+        playerTransform = PlayerManager.Instance.Player.transform;
     }
 
     public override void Exit()
@@ -23,7 +23,9 @@ public class SkeletonGroundState : EnemyState
     public override void Update()
     {
         base.Update();
-        if (enemy.PlayerDetected() || Vector2.Distance(skeleton.transform.position, player.transform.position) < 2f)
+        if (enemy.PlayerDetected() || Vector3.Distance(skeleton.transform.position, playerTransform.position) < 2f)
+        {
             stateMachine.ChangeState(skeleton.sawPlayerState);
+        }
     }
 }
