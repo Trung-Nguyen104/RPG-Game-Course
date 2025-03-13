@@ -19,16 +19,19 @@ public class PlayerAnimTriggers : MonoBehaviour
             if (hit.TryGetComponent<Enemy>(out var enemy))
             {
                 var enemyTarget = hit.GetComponent<CharCommonStats>();
+                var weaponData = Inventory_Controller.Instance.GetEquipment(EquipmentType.Weapon);
+
                 if (enemy.CanBeStun())
                 {
                     enemy.beCountered = true;
                 }
-                player.charStats.HandleDamage(enemyTarget);
-                var weaponData = Inventory.Instance.GetEquipment(EquipmentType.Weapon);
+                
                 if (weaponData != null)
                 {
                     weaponData.ExecuteItemEfftect(enemyTarget.transform);
                 }
+
+                player.charStats.HandleDamage(enemyTarget);
             }
         }
     }

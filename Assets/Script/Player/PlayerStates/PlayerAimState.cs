@@ -25,7 +25,9 @@ public class PlayerAimState : PlayerState
     {
         base.Update();
         player.SetVelocity(0, rb.velocity.y);
-        if (Input.GetKeyUp(KeyCode.H))
+        if (Inputs.Instance.GetInputUp(InputAction.ThorwSword))
+        {
             playerStateMachine.ChangeState(player.idleState);
+        }
     }
 }

@@ -11,7 +11,7 @@ public class Heal_Effect : Item_Effect
 
     public override void ExecuteEffect(Transform _targetTransform)
     {
-        playerStats = PlayerManager.Instance.Player.GetComponent<PlayerStats>();
+        playerStats = Player_Manager.Instance.Player.GetComponent<PlayerStats>();
 
         playerStats.IncreaseHealth(HealAmount());
     }

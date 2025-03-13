@@ -37,7 +37,7 @@ public class UI_EquipItemSlot : MonoBehaviour, IPointerDownHandler
         if (item.itemData.itemType == ItemType.Equipment)
         {
             var itemToUnequip = item.itemData as ItemData_Equipment;
-            Inventory.Instance.UnequipItem(itemToUnequip);
+            Inventory_Controller.Instance.UnequipItem(itemToUnequip);
         }
     }
 }

@@ -29,7 +29,7 @@ public class UltimateSkillController : MonoBehaviour
         cloneAttackCoolDown = _cloneAttackCoolDown;
         canUseUltimate = true;
         cloneAttackDamage = _damage;
-        player = PlayerManager.Instance.Player;
+        player = Player_Manager.Instance.Player;
     }
 
     private void CheckCanUseUltimate()

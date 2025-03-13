@@ -10,7 +10,7 @@ public class Skill : MonoBehaviour
 
     protected virtual void Start()
     {
-        player = PlayerManager.Instance.Player;
+        player = Player_Manager.Instance.Player;
     }
     protected virtual void Update()
     {

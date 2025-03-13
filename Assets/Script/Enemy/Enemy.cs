@@ -76,13 +76,13 @@ public class Enemy : CharCommonBehavior
         if(_boolValue)
         {
             moveSpeed = 0;
-            animator.speed = 0;
             SetVelocity(0, 0);
+            StateMachine.currentState.Pause(true);
         }
         else
         {
             moveSpeed = 1;
-            animator.speed = 1;
+            StateMachine.currentState.Pause(false);
         }
     }
 

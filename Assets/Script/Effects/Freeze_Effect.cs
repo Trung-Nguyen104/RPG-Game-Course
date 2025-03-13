@@ -7,7 +7,6 @@ public class Freeze_Effect : Item_Effect
 
     public override void ExecuteEffect(Transform _targetTransform)
     {
-        _targetTransform.GetComponent<Enemy>().FreezaTimeFor(duration);
+        _targetTransform.GetComponent<Enemy>()?.FreezaTimeFor(duration);
     }
-
 }

@@ -27,7 +27,7 @@ public class PlayerWallSildeState : PlayerState
         {
             playerStateMachine.ChangeState(player.idleState);
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow) && player.WallDetected())
+        if (Inputs.Instance.GetInputDown(InputAction.Jump) && player.WallDetected())
         {
             playerStateMachine.ChangeState(player.wallJumpState);
         }

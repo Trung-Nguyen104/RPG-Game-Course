@@ -8,7 +8,7 @@ public class ThunderStrike_Controller : MonoBehaviour
     {
         if(collision.GetComponent<Enemy>() != null)
         {
-            var playerStats = PlayerManager.Instance.Player.GetComponent<PlayerStats>();
+            var playerStats = Player_Manager.Instance.Player.GetComponent<PlayerStats>();
             var enemyTarget = collision.GetComponent<EnemyStats>();
 
             playerStats.HandleMagicalDamage(enemyTarget);

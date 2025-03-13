@@ -52,7 +52,7 @@ public class ThrowSwordSkill : Skill
         {
             TrajectoryLineController();
         }
-        if (Input.GetKeyUp(KeyCode.H))
+        if (Inputs.Instance.GetInputUp(InputAction.ThorwSword))
         {
             aimDirection = new Vector2(inputX, inputY);
         }
@@ -103,7 +103,7 @@ public class ThrowSwordSkill : Skill
     #region TrajectoryLine
     private void SetUpTrajectoryLine()
     {
-        if (Input.GetKey(KeyCode.H))
+        if (Inputs.Instance.GetInput(InputAction.ThorwSword))
         {
             for (int i = 0; i < trajectoryLine.Length; i++)
             {
@@ -116,8 +116,8 @@ public class ThrowSwordSkill : Skill
 
     private void TrajectoryLineController()
     {
-        inputX += player.PlayerInputHorizontal() * aimSpeed * Time.deltaTime;
-        inputY += player.PlayerInputVertical() * aimSpeed * Time.deltaTime;
+        inputX += Inputs.Instance.PlayerInputHorizontal() * aimSpeed * Time.deltaTime;
+        inputY += Inputs.Instance.PlayerInputVertical() * aimSpeed * Time.deltaTime;
         player.FlipController(inputX);
         if (inputY > aimLimit.y || inputX > aimLimit.x || inputX < -aimLimit.x || inputX < -aimLimit.y)
         {

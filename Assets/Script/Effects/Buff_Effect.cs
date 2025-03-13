@@ -28,7 +28,7 @@ public class Buff_Effect : Item_Effect
 
     public override void ExecuteEffect(Transform _targetTransform)
     {
-        stats = PlayerManager.Instance.Player.GetComponent<PlayerStats>();
+        stats = Player_Manager.Instance.Player.GetComponent<PlayerStats>();
         stats.IncreaseStatsBy(buffAmount, buffDuration, StatsToModify());
     }
 

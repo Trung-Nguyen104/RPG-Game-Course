@@ -81,9 +81,9 @@ public class Player : CharCommonBehavior
 
     private void OnDash()
     {
-        if (Input.GetKeyDown(KeyCode.G) && skillManager.dash.CanUseSkill() && !isBusy)
+        if (Inputs.Instance.GetInputDown(InputAction.Dash) && skillManager.dash.CanUseSkill() && !isBusy)
         {
-            dashDir = PlayerInputHorizontal();
+            dashDir = Inputs.Instance.PlayerInputHorizontal();
             if (dashDir == 0)
                 dashDir = facingDir;
 
@@ -96,10 +96,8 @@ public class Player : CharCommonBehavior
         base.DeadEffect();
         wasDead = true;
         playerStateMachine.ChangeState(dieState);
-        Inventory.Instance.LoseAllItems();
+        Inventory_Controller.Instance.LoseAllItems();
     }
 
-    public float PlayerInputHorizontal() => Input.GetAxisRaw("Horizontal");
-    public float PlayerInputVertical() => Input.GetAxisRaw("Vertical");
     public void AnimationTrigger() => playerStateMachine.currentState.AnimCalledTrigger();
 }

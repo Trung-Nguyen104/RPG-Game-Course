@@ -42,7 +42,7 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
     {
         if (item.itemData.itemType == ItemType.Equipment)
         {
-            Inventory.Instance.EquipItem(item.itemData);
+            Inventory_Controller.Instance.EquipItem(item.itemData);
         }
     }
 }

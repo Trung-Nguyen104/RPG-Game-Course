@@ -15,7 +15,7 @@ public class SkeletonSawPlayerState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        player = PlayerManager.Instance.Player;
+        player = Player_Manager.Instance.Player;
     }
 
     public override void Exit()

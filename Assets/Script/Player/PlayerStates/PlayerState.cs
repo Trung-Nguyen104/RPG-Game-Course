@@ -48,7 +48,7 @@ public class PlayerState
 
     private void OnMove()
     {
-        xInput = player.PlayerInputHorizontal();
+        xInput = Inputs.Instance.PlayerInputHorizontal();
         if (xInput != 0 && !player.isBusy)
             player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
     }

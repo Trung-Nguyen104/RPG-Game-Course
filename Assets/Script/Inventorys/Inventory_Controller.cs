@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Inventory : MonoBehaviour
+public class Inventory_Controller : MonoBehaviour
 {
-    private static Inventory instance;
-    public static Inventory Instance { get => instance; }
+    private static Inventory_Controller instance;
+    public static Inventory_Controller Instance { get => instance; }
 
     [SerializeField] private List<InventoryItem> inventory;
     [SerializeField] private Dictionary<ItemData, InventoryItem> inventoryDictionary;
@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Inventory.instance = this;
+            Inventory_Controller.instance = this;
         }
 
     }
@@ -177,7 +177,7 @@ public class Inventory : MonoBehaviour
 
     private void DropItem(ItemData _itemData)
     {
-        var playerTransfrom = PlayerManager.Instance.Player.transform;
+        var playerTransfrom = Player_Manager.Instance.Player.transform;
         var instantiateDrop = Instantiate(dropPrefab, playerTransfrom.position, Quaternion.identity);
         int xRandomRange = Random.Range(-5, 5);
         int yRandomRange = Random.Range(10, 15);

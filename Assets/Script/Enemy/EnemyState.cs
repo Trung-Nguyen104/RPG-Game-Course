@@ -36,6 +36,11 @@ public class EnemyState
         stateTimer -= Time.deltaTime;
     }
 
+    public virtual void Pause(bool _pause)
+    {
+        enemy.animator.speed = _pause ?  0 :  1;
+    }
+
     public virtual void AnimCalledTrigger()
     {
         animCalledTrigger = true;

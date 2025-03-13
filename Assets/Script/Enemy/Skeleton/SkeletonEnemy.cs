@@ -43,10 +43,10 @@ public class SkeletonEnemy : Enemy
         }
         else
         {
-            if (isTakeDamged)
-            {
-                StateMachine.ChangeState(takeDamgeState);
-            }
+            //if (isTakeDamged)
+            //{
+            //    StateMachine.ChangeState(takeDamgeState);
+            //}
             if(beCountered)
             {
                 StateMachine.ChangeState(stunState);
@@ -58,8 +58,8 @@ public class SkeletonEnemy : Enemy
     public override void DeadEffect()
     {
         base.DeadEffect();
-        animator.speed = 0;
         wasDead = true;
+        StateMachine.currentState.Pause(wasDead);
         StateMachine.ChangeState(deadState);
     }
 }

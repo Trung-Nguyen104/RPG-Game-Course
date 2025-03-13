@@ -22,16 +22,16 @@ public class PlayerGroundState : PlayerState
     {
         base.Update();
         
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Inputs.Instance.GetInputDown(InputAction.PrimaryAttack))
             playerStateMachine.ChangeState(player.attackState);
 
         if (!player.GroundDetected())
             playerStateMachine.ChangeState(player.airState);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && player.GroundDetected() && !player.isBusy)
+        if (Inputs.Instance.GetInputDown(InputAction.Jump) && player.GroundDetected() && !player.isBusy)
             playerStateMachine.ChangeState(player.jumpState);
 
-        if(Input.GetKeyDown(KeyCode.H) && CanCreateSword())
+        if(Inputs.Instance.GetInputDown(InputAction.ThorwSword) && CanCreateSword())
             playerStateMachine.ChangeState(player.aimState);
     }
 

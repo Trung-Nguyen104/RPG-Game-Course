@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class Player_Manager : MonoBehaviour
 {
-    private static PlayerManager instance;
-    public static PlayerManager Instance { get => instance; }
+    private static Player_Manager instance;
+    public static Player_Manager Instance { get => instance; }
     public Player Player {  get; private set; }
-    private PlayerManager() {}
+
     private void Awake()
     {
         Player = GameObject.Find("PlayerManager/Player").GetComponent<Player>();
@@ -17,7 +17,7 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            PlayerManager.instance = this;
+            Player_Manager.instance = this;
         }
     }
 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a4cd5d2e32d794e858cce0fc7c1952, type: 3}
   m_Name: Freeze Effect
   m_EditorClassIdentifier: 
-  duration: 3
+  duration: 5
