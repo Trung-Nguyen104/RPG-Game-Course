@@ -16,19 +16,8 @@ public class UI_Inventory_Canvas : MonoBehaviour
         if (Inputs.Instance.GetInputDown(InputAction.Inventory))
         {
             inventoryCanvas.enabled = !inventoryCanvas.enabled;
-            TimeScale(inventoryCanvas.isActiveAndEnabled);
         }
     }
 
-    private void TimeScale(bool _isInventoryOpen)
-    {
-        if (_isInventoryOpen)
-        {
-            Time.timeScale = 0f; 
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
-    }
+    
 }

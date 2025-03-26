@@ -58,8 +58,6 @@ public class SkeletonEnemy : Enemy
     public override void DeadEffect()
     {
         base.DeadEffect();
-        wasDead = true;
-        StateMachine.currentState.Pause(wasDead);
         StateMachine.ChangeState(deadState);
     }
 }

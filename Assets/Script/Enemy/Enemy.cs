@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : CharCommonBehavior
+public class Enemy : Entity_Behavior
 {
     [SerializeField] protected LayerMask playerLayer;
     [SerializeField] public float idleTime;

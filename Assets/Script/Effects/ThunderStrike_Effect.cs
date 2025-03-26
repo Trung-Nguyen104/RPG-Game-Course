@@ -9,7 +9,6 @@ public class ThunderStrike_Effect : Item_Effect
 
     public override void ExecuteEffect(Transform _targetTransform)
     {
-        GameObject newThunderStrike = Instantiate(thunderStrikePrfabs, _targetTransform.position, Quaternion.identity);
-        Destroy(newThunderStrike, 1f);
+        Instantiate(thunderStrikePrfabs, _targetTransform.position, Quaternion.identity);
     }
 }

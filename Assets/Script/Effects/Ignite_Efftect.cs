@@ -9,7 +9,16 @@ public class Ignite_Efftect : Item_Effect
 
     public override void ExecuteEffect(Transform _targetTransform)
     {
-        GameObject newThunderStrike = Instantiate(ignitePrefabs, _targetTransform.position, Quaternion.identity);
-        Destroy(newThunderStrike, 5f);
+        if (_targetTransform.GetComponentInChildren<Ignite_Controller>() != null)
+        {
+            return;
+        }
+
+        var targetBehaviour = _targetTransform.GetComponentInParent<Entity_Behavior>();
+        var igniteEffect = Instantiate(ignitePrefabs, _targetTransform.position, Quaternion.identity);
+
+        igniteEffect.GetComponent<Ignite_Controller>().targetBehaviour = targetBehaviour;
+        igniteEffect.transform.parent = _targetTransform.transform;
+        Destroy(igniteEffect, 3f);
     }
 }

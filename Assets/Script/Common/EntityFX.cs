@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityFX : MonoBehaviour
@@ -18,10 +16,10 @@ public class EntityFX : MonoBehaviour
 
     private void StunEffect()
     {
-        if(sr.color != Color.white)
-            sr.color = Color.white; 
-        else 
-            sr.color = Color.red;
+        if (sr.color != Color.white)
+        { sr.color = Color.white; }
+        else
+        { sr.color = Color.red; }
     }
 
     public void IgniteEffectFor(float _igniteDuration)
@@ -32,7 +30,7 @@ public class EntityFX : MonoBehaviour
 
     private void IgniteFx()
     {
-        if(sr.color != igniteColorEffect[0])
+        if (sr.color != igniteColorEffect[0])
         {
             sr.color = igniteColorEffect[0];
         }

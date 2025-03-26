@@ -16,8 +16,11 @@ public class Inventory_Controller : MonoBehaviour
     [Header("Inventory UI")]
     [SerializeField] private Transform inventorySlotParent;
     [SerializeField] private Transform equipmentSlotParent;
+    [SerializeField] private Transform statSlotParent;
+
     private UI_ItemSlot[] itemSlot;
     private UI_EquipItemSlot[] equipmentSlot;
+    private UI_StatSlot[] statSlot;
 
     private void Awake()
     {
@@ -40,6 +43,7 @@ public class Inventory_Controller : MonoBehaviour
         equipmentDictionary = new Dictionary<ItemData_Equipment, InventoryItem>();
         itemSlot = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         equipmentSlot = equipmentSlotParent.GetComponentsInChildren<UI_EquipItemSlot>();
+        statSlot = statSlotParent.GetComponentsInChildren<UI_StatSlot>();
     }
 
     private void UpdateInventoryUI()
@@ -67,6 +71,11 @@ public class Inventory_Controller : MonoBehaviour
         for (int i = 0; i < inventory.Count; i++)
         {
             itemSlot[i].UpdateSlot(inventory[i]);
+        }
+
+        for (int i = 0; i < statSlot.Length; i++)
+        {
+            statSlot[i].UpdateStatValue();
         }
     }
 

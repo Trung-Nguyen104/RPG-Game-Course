@@ -40,6 +40,10 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(item == null || item.itemData == null)
+        {
+            return;
+        }
         if (item.itemData.itemType == ItemType.Equipment)
         {
             Inventory_Controller.Instance.EquipItem(item.itemData);

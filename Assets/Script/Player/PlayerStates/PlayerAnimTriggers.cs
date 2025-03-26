@@ -18,7 +18,7 @@ public class PlayerAnimTriggers : MonoBehaviour
         {
             if (hit.TryGetComponent<Enemy>(out var enemy))
             {
-                var enemyTarget = hit.GetComponent<CharCommonStats>();
+                var enemyTarget = hit.GetComponent<Entity_Stats>();
                 var weaponData = Inventory_Controller.Instance.GetEquipment(EquipmentType.Weapon);
 
                 if (enemy.CanBeStun())
@@ -31,7 +31,7 @@ public class PlayerAnimTriggers : MonoBehaviour
                     weaponData.ExecuteItemEfftect(enemyTarget.transform);
                 }
 
-                player.charStats.HandleDamage(enemyTarget);
+                player.EntityStats.HandleDamage(enemyTarget);
             }
         }
     }

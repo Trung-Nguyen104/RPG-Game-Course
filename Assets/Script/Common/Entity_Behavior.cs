@@ -1,8 +1,9 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharCommonBehavior : MonoBehaviour
+public class Entity_Behavior : MonoBehaviour
 {
     [Header("KnockBack")]
     [SerializeField] public float knockBackForce;
@@ -23,14 +24,12 @@ public class CharCommonBehavior : MonoBehaviour
 
     protected bool facingRight = true;
 
-
-
     #region Component
     public Animator animator { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public EntityFX fx { get; private set; }
     public SpriteRenderer sr { get; private set; }
-    public CharCommonStats charStats { get; private set; }
+    public Entity_Stats EntityStats { get; private set; }
     public Collider2D cd2D { get; private set; }
     public Slider slider { get; private set; }
     #endregion
@@ -46,7 +45,7 @@ public class CharCommonBehavior : MonoBehaviour
         sr = GetComponentInChildren<SpriteRenderer>();
         cd2D = GetComponentInChildren<Collider2D>();
         slider = GetComponentInChildren<Slider>();
-        charStats = GetComponent<CharCommonStats>();
+        EntityStats = GetComponent<Entity_Stats>();
         rb = GetComponent<Rigidbody2D>();
         fx = GetComponent<EntityFX>();
     }
@@ -117,5 +116,6 @@ public class CharCommonBehavior : MonoBehaviour
 
     public virtual void DeadEffect()
     {
+        
     }
 }

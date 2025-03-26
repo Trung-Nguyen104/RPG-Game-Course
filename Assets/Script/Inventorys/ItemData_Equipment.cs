@@ -45,7 +45,7 @@ public class ItemData_Equipment : ItemData
 
     public void AddModifiers()
     {
-        var playerStats = Player_Manager.Instance.Player.GetComponent<PlayerStats>();
+        var playerStats = Player_Manager.Instance.Player.GetComponent<Player_Stats>();
 
         playerStats.strength.AddModifier(strength);
         playerStats.agility.AddModifier(agility);
@@ -68,7 +68,7 @@ public class ItemData_Equipment : ItemData
 
     public void RemoveModifiers() 
     {
-        var playerStats = Player_Manager.Instance.Player.GetComponent<PlayerStats>();
+        var playerStats = Player_Manager.Instance.Player.GetComponent<Player_Stats>();
 
         playerStats.strength.RemoveModifier(strength);
         playerStats.agility.RemoveModifier(agility);

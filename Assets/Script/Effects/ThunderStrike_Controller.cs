@@ -8,10 +8,11 @@ public class ThunderStrike_Controller : MonoBehaviour
     {
         if(collision.GetComponent<Enemy>() != null)
         {
-            var playerStats = Player_Manager.Instance.Player.GetComponent<PlayerStats>();
-            var enemyTarget = collision.GetComponent<EnemyStats>();
+            var playerStats = Player_Manager.Instance.Player.GetComponent<Player_Stats>();
+            var enemyTarget = collision.GetComponent<Enemy_Stats>();
 
             playerStats.HandleMagicalDamage(enemyTarget);
+            Destroy(gameObject, 1f);
         }
     }
 }

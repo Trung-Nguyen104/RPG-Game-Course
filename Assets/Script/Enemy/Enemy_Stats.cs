@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStats : CharCommonStats
+public class Enemy_Stats : Entity_Stats
 {
     private Enemy enemy;
     private ItemDrop itemDrop;
@@ -51,17 +51,17 @@ public class EnemyStats : CharCommonStats
         }
     }
 
-    public override void TakeDamageHP(int _damage)
+    public override void TakeDamageHP(int _damage, Entity_Stats _targetStats)
     {
-        base.TakeDamageHP(_damage);
+        base.TakeDamageHP(_damage, _targetStats);
         enemy.TakeDamageEffect();
     }
 
     protected override void HandleDie()
     {
         base.HandleDie();
+        enemy.wasDead = true;
         enemy.DeadEffect();
         itemDrop.GenerateDrop();
-        Debug.Log("handle die ");
     }
 }

@@ -49,7 +49,7 @@ public class SwordSkillController : MonoBehaviour
         var enemyCollision = collision.GetComponent<Enemy>();
         if (enemyCollision != null)
         {
-            player.charStats.HandleMagicalDamage(enemyCollision.charStats);
+            player.EntityStats.HandleMagicalDamage(enemyCollision.EntityStats);
             if(isSwordBounce)
             {
                 BouncingTargetSetUp();

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class SkeletonSawPlayerState : EnemyState
 {
     private Player player;
@@ -37,12 +33,12 @@ public class SkeletonSawPlayerState : EnemyState
     private void CheckPlayerPosition()
     {
         if (player.wasDead)
-            return;
+        { return; }
 
         if (player.transform.position.x > skeleton.transform.position.x)
-            moveDir = 1;
+        { moveDir = 1; }
         else if (player.transform.position.x < skeleton.transform.position.x)
-            moveDir = -1;
+        { moveDir = -1; }
     }
 
     private void CheckPlayerDetection()

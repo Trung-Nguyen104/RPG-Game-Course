@@ -34,6 +34,11 @@ public class UI_EquipItemSlot : MonoBehaviour, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(item == null || item.itemData == null)
+        {
+            return;
+        }
+
         if (item.itemData.itemType == ItemType.Equipment)
         {
             var itemToUnequip = item.itemData as ItemData_Equipment;

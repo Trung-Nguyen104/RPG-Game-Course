@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ignite_Controller : ThunderStrike_Controller
+public class Ignite_Controller : MonoBehaviour
 {
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    public Entity_Behavior targetBehaviour;
+
+    private void Update()
     {
-        base.OnTriggerEnter2D(collision);
+        if (targetBehaviour != null && targetBehaviour.wasDead)
+        {
+            Destroy(gameObject);
+        }
     }
 }

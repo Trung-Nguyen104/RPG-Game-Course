@@ -1,21 +1,39 @@
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class CharCommonStats : MonoBehaviour
+public enum StatType
 {
+    strength,
+    agility,
+    intelligence,
+    vitality,
+    maxHealth,
+    armor,
+    evasion,
+    magicResistance,
+    physicDamage,
+    criticalRate,
+    criticalDamage,
+    fireDamage,
+    iceDamage,
+    lightingDamage,
+}
+
+public class Entity_Stats : MonoBehaviour
+{
+    [Header("Defensive Stats")]
     public int currHP;
+    public Stats maxHealth;
+    public Stats armor;
+    public Stats evasion;
+    public Stats magicResistance;
 
     [Header("Major Stats")]
     public Stats strength;
     public Stats agility;
     public Stats intelligence;
     public Stats vitality;
-
-    [Header("Defensive Stats")]
-    public Stats maxHealth;
-    public Stats armor;
-    public Stats evasion;
-    public Stats magicResistance;
 
     [Header("Damage Stats")]
     public Stats physicDamage;
@@ -32,15 +50,13 @@ public class CharCommonStats : MonoBehaviour
     public bool isShocked;
 
     private float igniteDuration = 5f;
-    public float igniteTimer;
-    private int igniteDamage;
+    private float igniteTimer;
+
     private float chillDuration = 3f;
     private float chillTimer;
+
     private float shockDuration = 1.5f;
     private float shockTimer;
-    private int igniteDamageSpeed = 1;
-
-    public System.Action onHealthChanged;
 
     private EntityFX fx;
 
@@ -53,21 +69,21 @@ public class CharCommonStats : MonoBehaviour
 
     protected virtual void Update()
     {
-        if(isIgnited)
+        if (isIgnited)
         {
             HandleIgniteDuration();
         }
-        if(isChilled)
+        if (isChilled)
         {
             HandleChillDuration();
         }
-        if(isShocked)
+        if (isShocked)
         {
             HandleShockDuration();
         }
     }
 
-    public virtual void HandleDamage(CharCommonStats _targetStats)
+    public virtual void HandleDamage(Entity_Stats _targetStats)
     {
         var totalDamage = 0;
         if (!CheckCanAvoid(_targetStats))
@@ -79,10 +95,10 @@ public class CharCommonStats : MonoBehaviour
         {
             totalDamage = HandleCriticalDamage(totalDamage);
         }
-        _targetStats.TakeDamageHP(totalDamage);
+        _targetStats.TakeDamageHP(totalDamage, _targetStats);
     }
 
-    public virtual void HandleMagicalDamage(CharCommonStats _targetStats)
+    public virtual void HandleMagicalDamage(Entity_Stats _targetStats)
     {
         var _fireDamage = fireDamage.GetValue();
         var _iceDamage = iceDamage.GetValue();
@@ -90,13 +106,13 @@ public class CharCommonStats : MonoBehaviour
         var totalMagicalDamage = _fireDamage + _iceDamage + _lightingDamage + intelligence.GetValue();
 
         totalMagicalDamage = HandleMagicalResistance(_targetStats, totalMagicalDamage);
-        _targetStats.TakeDamageHP(totalMagicalDamage);
+        _targetStats.TakeDamageHP(totalMagicalDamage, _targetStats);
         CheckCanApplyAilment(_targetStats, _fireDamage, _iceDamage, _lightingDamage);
     }
 
-    public virtual void TakeDamageHP(int _damage)
+    public virtual void TakeDamageHP(int _damage, Entity_Stats _targetStats)
     {
-        DecreaseHealth(_damage);
+        DecreaseHealth(_damage, _targetStats);
 
         if (currHP <= 0)
         {
@@ -104,31 +120,26 @@ public class CharCommonStats : MonoBehaviour
         }
     }
 
-    public virtual void IncreaseHealth(int _amount)
+    public virtual void IncreaseHealth(int _amount, Entity_Stats _targetStats)
     {
         currHP += _amount;
 
-        if(currHP > GetMaxHealth())
+        if (currHP > GetMaxHealth())
         {
             currHP = GetMaxHealth();
         }
-        if(onHealthChanged != null)
-        {
-            onHealthChanged();
-        }
+        Event_Manager.SentEvent(EventName.OnHealthChanged, _targetStats);
     }
 
-    protected virtual void DecreaseHealth(int _damage)
+    protected virtual void DecreaseHealth(int _damage, Entity_Stats _targetStats)
     {
         currHP -= _damage;
-        if(onHealthChanged != null)
-        {
-            onHealthChanged();
-        }
+        Event_Manager.SentEvent(EventName.OnHealthChanged, _targetStats);
     }
 
     protected virtual void HandleDie()
     {
+
     }
 
 
@@ -139,7 +150,7 @@ public class CharCommonStats : MonoBehaviour
         return totalDamage;
     }
 
-    private int HandleMagicalResistance(CharCommonStats _targetStats, int totalMagicalDamage)
+    private int HandleMagicalResistance(Entity_Stats _targetStats, int totalMagicalDamage)
     {
         totalMagicalDamage -= _targetStats.magicResistance.GetValue() + (_targetStats.intelligence.GetValue() * 2);
         totalMagicalDamage = Mathf.Clamp(totalMagicalDamage, 0, int.MaxValue);
@@ -153,19 +164,12 @@ public class CharCommonStats : MonoBehaviour
         return totalCritDamage;
     }
 
-
     private void HandleIgniteDuration()
     {
         igniteTimer += Time.deltaTime;
-        if (igniteTimer > igniteDamageSpeed && isIgnited)
-        {
-            DecreaseHealth(igniteDamage);
-            igniteDamageSpeed ++;
-        }
         if (igniteTimer > igniteDuration)
         {
             isIgnited = false;
-            igniteDamageSpeed = 1;
             igniteTimer = 0;
         }
     }
@@ -173,7 +177,7 @@ public class CharCommonStats : MonoBehaviour
     private void HandleChillDuration()
     {
         chillTimer += Time.deltaTime;
-        if(chillTimer > chillDuration)
+        if (chillTimer > chillDuration)
         {
             isChilled = false;
             chillTimer = 0;
@@ -182,9 +186,9 @@ public class CharCommonStats : MonoBehaviour
     }
 
     private void HandleShockDuration()
-    { 
+    {
         shockTimer += Time.deltaTime;
-        if(shockTimer > shockDuration)
+        if (shockTimer > shockDuration)
         {
             isShocked = false;
             shockTimer = 0;
@@ -196,14 +200,14 @@ public class CharCommonStats : MonoBehaviour
     private bool CheckCanCritical()
     {
         int totalCriticalChance = criticalRate.GetValue() + agility.GetValue();
-        if(Random.Range(0, 100) <= totalCriticalChance)
+        if (Random.Range(0, 100) <= totalCriticalChance)
         {
             return true;
         }
         return false;
     }
 
-    private bool CheckCanAvoid(CharCommonStats _targetStats)
+    private bool CheckCanAvoid(Entity_Stats _targetStats)
     {
         int totalEvasion = _targetStats.evasion.GetValue() + _targetStats.agility.GetValue();
         if (Random.Range(0, 100) < totalEvasion)
@@ -213,7 +217,7 @@ public class CharCommonStats : MonoBehaviour
         return false;
     }
 
-    private void CheckCanApplyAilment(CharCommonStats _targetStats, int _fireDamage, int _iceDamage, int _lightingDamage)
+    private void CheckCanApplyAilment(Entity_Stats _targetStats, int _fireDamage, int _iceDamage, int _lightingDamage)
     {
         if (Mathf.Max(_fireDamage, _iceDamage, _lightingDamage) <= 0)
         {
@@ -250,26 +254,19 @@ public class CharCommonStats : MonoBehaviour
         //    }
         //}
 
-        if (canApplyIgnite)
-        {
-            _targetStats.SetUpIgniteDamage(_fireDamage * 35 / 100);
-        }
-
         _targetStats.SetUpStatusAilment(canApplyIgnite, canApplyChill, canApplyShock);
     }
 
-
     public virtual void SetUpStatusAilment(bool _ignited, bool _chilled, bool _shocked)
     {
-        if(isIgnited || isChilled || isShocked)
+        if (isIgnited || isChilled || isShocked)
         {
             return;
         }
 
         if (_ignited)
-        { 
+        {
             isIgnited = _ignited;
-            fx.IgniteEffectFor(5);
         }
         if (_chilled)
         {
@@ -280,8 +277,6 @@ public class CharCommonStats : MonoBehaviour
             isShocked = _shocked;
         }
     }
-
-    public virtual void SetUpIgniteDamage(int _igniteDamage) => igniteDamage = _igniteDamage;
 
     public virtual int GetMaxHealth() => maxHealth.GetValue() + (vitality.GetValue() * 5);
 
@@ -295,5 +290,42 @@ public class CharCommonStats : MonoBehaviour
         _statsToMofify.AddModifier(_modifier);
         yield return new WaitForSeconds(_duration);
         _statsToMofify.RemoveModifier(_modifier);
+    }
+
+    public Stats GetType(StatType statsType)
+    {
+        switch (statsType)
+        {
+            case StatType.strength:
+                return strength;
+            case StatType.agility:
+                return agility;
+            case StatType.intelligence:
+                return intelligence;
+            case StatType.vitality:
+                return vitality;
+            case StatType.maxHealth:
+                return maxHealth;
+            case StatType.armor:
+                return armor;
+            case StatType.evasion:
+                return evasion;
+            case StatType.magicResistance:
+                return magicResistance;
+            case StatType.physicDamage:
+                return physicDamage;
+            case StatType.criticalRate:
+                return criticalRate;
+            case StatType.criticalDamage:
+                return criticalDamage;
+            case StatType.fireDamage:
+                return fireDamage;
+            case StatType.iceDamage:
+                return iceDamage;
+            case StatType.lightingDamage:
+                return lightingDamage;
+            default:
+                return null;
+        }
     }
 }

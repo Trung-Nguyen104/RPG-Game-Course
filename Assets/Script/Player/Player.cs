@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : CharCommonBehavior
+public class Player : Entity_Behavior
 {
     [Header("Movement")]
     [SerializeField] public float moveSpeed;
@@ -31,7 +31,7 @@ public class Player : CharCommonBehavior
     public PlayerAimState aimState { get; private set; }
     public PlayerCatchSwordState catchSwordState { get; private set; }
     public PlayerUltimateState ultimateState { get; private set; }
-    public PlayerDeadState dieState { get; private set; }
+    public PlayerDeadState deadState { get; private set; }
     #endregion
 
     protected override void Awake()
@@ -51,7 +51,7 @@ public class Player : CharCommonBehavior
         aimState = new PlayerAimState(this, playerStateMachine, "AimSword");
         catchSwordState = new PlayerCatchSwordState(this, playerStateMachine, "CatchSword");
         ultimateState = new PlayerUltimateState(this, playerStateMachine, "Jump");
-        dieState = new PlayerDeadState(this, playerStateMachine, "Die");
+        deadState = new PlayerDeadState(this, playerStateMachine, "Die");
     }
 
     protected override void Start()
@@ -83,7 +83,7 @@ public class Player : CharCommonBehavior
     {
         if (Inputs.Instance.GetInputDown(InputAction.Dash) && skillManager.dash.CanUseSkill() && !isBusy)
         {
-            dashDir = Inputs.Instance.PlayerInputHorizontal();
+            dashDir = Inputs.Instance.GetHorizontal();
             if (dashDir == 0)
                 dashDir = facingDir;
 
@@ -94,9 +94,7 @@ public class Player : CharCommonBehavior
     public override void DeadEffect()
     {
         base.DeadEffect();
-        wasDead = true;
-        playerStateMachine.ChangeState(dieState);
-        Inventory_Controller.Instance.LoseAllItems();
+        playerStateMachine.ChangeState(deadState);
     }
 
     public void AnimationTrigger() => playerStateMachine.currentState.AnimCalledTrigger();

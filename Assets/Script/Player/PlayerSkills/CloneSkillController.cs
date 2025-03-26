@@ -56,7 +56,7 @@ public class CloneSkillController : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().charStats.TakeDamageHP(cloneAttackDamage);
+                hit.GetComponent<Enemy>().EntityStats.TakeDamageHP(cloneAttackDamage, hit.GetComponent<Enemy>().EntityStats);
             }
         }
 

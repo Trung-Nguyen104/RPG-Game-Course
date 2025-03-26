@@ -7,13 +7,13 @@ public class Heal_Effect : Item_Effect
 {
     [Range(0, 100)]
     [SerializeField] private int healPercent;
-    private PlayerStats playerStats;
+    private Player_Stats playerStats;
 
     public override void ExecuteEffect(Transform _targetTransform)
     {
-        playerStats = Player_Manager.Instance.Player.GetComponent<PlayerStats>();
+        playerStats = Player_Manager.Instance.Player.GetComponent<Player_Stats>();
 
-        playerStats.IncreaseHealth(HealAmount());
+        playerStats.IncreaseHealth(HealAmount(), playerStats);
     }
 
     private int HealAmount()

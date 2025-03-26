@@ -9,7 +9,7 @@ public class ItemObject_Trigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Invoke(nameof(PickupDelay), 2);
+        Invoke(nameof(PickupDelay), 1f);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

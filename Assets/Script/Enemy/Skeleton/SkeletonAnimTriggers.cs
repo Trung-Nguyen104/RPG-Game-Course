@@ -19,8 +19,8 @@ public class SkeletonAnimTriggers : MonoBehaviour
             var player = hit.GetComponent<Player>();
             if (player != null)
             {
-                var playerTarget =  hit.GetComponent<CharCommonStats>();
-                skeleton.charStats.HandleDamage(playerTarget);
+                var playerTarget =  hit.GetComponent<Entity_Stats>();
+                skeleton.EntityStats.HandleDamage(playerTarget);
             }
         }
 

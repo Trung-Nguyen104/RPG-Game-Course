@@ -10,6 +10,7 @@ public enum InputAction
     Dash,
     Ultimate,
     ThorwSword,
+    OpenMenu,
 }
 
 public class Inputs : MonoBehaviour
@@ -39,12 +40,13 @@ public class Inputs : MonoBehaviour
             { InputAction.Dash, KeyCode.W },
             { InputAction.Ultimate, KeyCode.R },
             { InputAction.ThorwSword, KeyCode.E },
+            { InputAction.OpenMenu, KeyCode.Tab},
         };
     }
 
-    public float PlayerInputHorizontal() => Input.GetAxisRaw("Horizontal");
+    public float GetHorizontal() => Input.GetAxisRaw("Horizontal");
 
-    public float PlayerInputVertical() => Input.GetAxisRaw("Vertical");
+    public float GetVeritcal() => Input.GetAxisRaw("Vertical");
 
     public bool GetInput(InputAction action) => inputs.ContainsKey(action) && Input.GetKey(inputs[action]);
 

@@ -116,8 +116,8 @@ public class ThrowSwordSkill : Skill
 
     private void TrajectoryLineController()
     {
-        inputX += Inputs.Instance.PlayerInputHorizontal() * aimSpeed * Time.deltaTime;
-        inputY += Inputs.Instance.PlayerInputVertical() * aimSpeed * Time.deltaTime;
+        inputX += Inputs.Instance.GetHorizontal() * aimSpeed * Time.deltaTime;
+        inputY += Inputs.Instance.GetVeritcal() * aimSpeed * Time.deltaTime;
         player.FlipController(inputX);
         if (inputY > aimLimit.y || inputX > aimLimit.x || inputX < -aimLimit.x || inputX < -aimLimit.y)
         {
