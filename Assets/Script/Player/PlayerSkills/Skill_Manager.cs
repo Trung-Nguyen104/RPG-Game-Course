@@ -47,6 +47,12 @@ public class Skill_Manager : MonoBehaviour, ISaveLoadManager
         Ultimate = GetComponent<UltimateSkill>();
     }
 
+    private void Update()
+    {
+        var inventory = Inventory_Controller.Instance;
+        inventory.textCurrency.text = inventory.currency.ToString("#,#");
+    }
+
     public void OnUnlockedSkill(SkillTypes _skill, string _upgradeName)
     {
         SkillNames.Add(_skill + "_" + _upgradeName);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
     public static Inventory_Controller Instance { get => instance; }
 
     public int currency;
+    public TextMeshProUGUI textCurrency;
+
     [Space]
 
     [SerializeField] private List<InventoryItem> inventory;
