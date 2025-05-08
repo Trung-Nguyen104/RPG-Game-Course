@@ -31,7 +31,7 @@ public class PlayerGroundState : PlayerState
         if (Inputs.Instance.GetInputDown(InputAction.Jump) && player.GroundDetected() && !player.isBusy)
             playerStateMachine.ChangeState(player.jumpState);
 
-        if(Inputs.Instance.GetInputDown(InputAction.ThorwSword) && CanCreateSword())
+        if(Inputs.Instance.GetInputDown(InputAction.ThorwSword) && CanCreateSword() && Skill_Manager.Instance.ThrowSword.skill_Unlocked)
             playerStateMachine.ChangeState(player.aimState);
     }
 
@@ -43,7 +43,7 @@ public class PlayerGroundState : PlayerState
         }
         else
         {
-            player.skillManager.throwSword.swordController.SwordReturnToPlayer();
+            player.skillManager.ThrowSword.swordController.SwordReturnToPlayer();
             return false;
         }
     }

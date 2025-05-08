@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c7c6852ee890b43b5a16c6e560c9b8, type: 3}
   m_Name: Animal Skin
   m_EditorClassIdentifier: 
+  itemType: 1
   itemName: 'Animal Skin '
   icon: {fileID: -973012730, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemID: 23fd694910369b24aa26afd3cccdd620

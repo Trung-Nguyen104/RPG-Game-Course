@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UltimateSkill : Skill
 {
+    public bool ultimateSkill_Unlocked { get; private set; }
+
     [SerializeField] private GameObject blackHolePrefabs;
     [SerializeField] private float maxSize;
     [SerializeField] private float growSpeed;
@@ -12,6 +14,10 @@ public class UltimateSkill : Skill
     
     public override void UseSkill()
     {
+        if (!skill_Unlocked)
+        {
+            return;
+        }
         base.UseSkill();
         var newBlackHolePrefabs = GameObject.Instantiate(blackHolePrefabs, player.transform.position, Quaternion.identity);
         var ultimateBlackHole = newBlackHolePrefabs.GetComponent<UltimateSkillController>();

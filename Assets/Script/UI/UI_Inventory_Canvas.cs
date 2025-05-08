@@ -18,6 +18,4 @@ public class UI_Inventory_Canvas : MonoBehaviour
             inventoryCanvas.enabled = !inventoryCanvas.enabled;
         }
     }
-
-    
 }

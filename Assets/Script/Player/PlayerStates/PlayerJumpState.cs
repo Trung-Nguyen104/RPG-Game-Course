@@ -29,7 +29,7 @@ public class PlayerJumpState : PlayerState
         if(player.WallDetected())
             playerStateMachine.ChangeState(player.wallSlideState);
 
-        if (Inputs.Instance.GetInputDown(InputAction.Ultimate))
+        if (Inputs.Instance.GetInputDown(InputAction.Ultimate) && Skill_Manager.Instance.Ultimate.skill_Unlocked)
             playerStateMachine.ChangeState(player.ultimateState);
     }
 }

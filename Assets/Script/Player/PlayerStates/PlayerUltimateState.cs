@@ -39,7 +39,7 @@ public class PlayerUltimateState : PlayerState
             rb.gravityScale = 0;
             if(canUseUltimate)
             {
-                SkillManager.Instance.ultimateSkill.CanUseSkill();
+                Skill_Manager.Instance.Ultimate.CanUseSkill();
                 canUseUltimate = false;
             }
         }

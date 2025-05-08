@@ -21,7 +21,7 @@ public class UI_NavigationMenu : MonoBehaviour
         if (Inputs.Instance.GetInputDown(InputAction.OpenMenu))
         {
             menuCanvas.enabled = !menuCanvas.enabled;
-            TimeScale(menuCanvas.isActiveAndEnabled);
+            //TimeScale(menuCanvas.isActiveAndEnabled);
         }
         HandleNavigattion();
 

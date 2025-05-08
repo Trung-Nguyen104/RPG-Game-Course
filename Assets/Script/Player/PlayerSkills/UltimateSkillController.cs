@@ -79,7 +79,7 @@ public class UltimateSkillController : MonoBehaviour
         if (cloneAttackTimer < 0)
         {
             cloneAttackTimer = cloneAttackCoolDown;
-            var createClone = SkillManager.Instance.createClone;
+            var createClone = Skill_Manager.Instance.CreateClone;
             createClone.cloneAttackDamage = this.cloneAttackDamage;
             createClone.CreateClone(targets[random], new Vector3(SetUpOffSetX(), 0));
             attackCount--;

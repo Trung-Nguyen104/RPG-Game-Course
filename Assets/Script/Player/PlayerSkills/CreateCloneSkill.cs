@@ -2,13 +2,18 @@ using UnityEngine;
 
 public class CreateCloneSkill : Skill
 {
+    public int cloneAttackDamage;
+
     [SerializeField] private GameObject clonePrefab;
     [SerializeField] private float cloneTimeDuration;
     [SerializeField] private float invisibleSpeed;
-    [SerializeField] public int cloneAttackDamage;
 
     public void CreateClone(Transform _transform, Vector3 _offset)
     {
+        if (!skill_Unlocked)
+        {
+            return;
+        }
         var newClone = Instantiate(clonePrefab);
         var newCloneController = newClone.GetComponent<CloneSkillController>();
         HandleCloneController(_transform, _offset, newCloneController);

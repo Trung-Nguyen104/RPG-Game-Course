@@ -9,7 +9,7 @@ public class PlayerDashState : PlayerState
         base.Enter();
         player.isBusy = true;
         timerState = player.dashDuration;
-        //player.skillManager.createClone.CreateClone(player.transform);
+        player.skillManager.CreateClone.CreateClone(player.transform, new UnityEngine.Vector3(0,0,0));
     }
 
     public override void Exit()

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public enum SwordType
 {
@@ -8,6 +9,7 @@ public enum SwordType
 public class ThrowSwordSkill : Skill
 {
     public SwordType swordType = SwordType.Regular;
+
     [SerializeField] private int regularDamage;
 
     [Header("Bounce Sword")]
@@ -46,6 +48,12 @@ public class ThrowSwordSkill : Skill
     protected override void Update()
     {
         base.Update();
+
+        if (!skill_Unlocked)
+        {
+            return;
+        }
+
         SetUpTrajectoryLine();
 
         if (trajectoryLineEnabled)
@@ -56,6 +64,16 @@ public class ThrowSwordSkill : Skill
         {
             aimDirection = new Vector2(inputX, inputY);
         }
+    }
+
+    public override void OnUnlockedSkill(string _modifyName)
+    {
+        if (_modifyName != "")
+        {
+            swordType = (SwordType)Enum.Parse(typeof(SwordType), _modifyName, ignoreCase: true); 
+            return;
+        }
+        base.OnUnlockedSkill(_modifyName);
     }
 
     public void CreateSword()

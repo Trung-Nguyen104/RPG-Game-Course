@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
+public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image itemImage;
     [SerializeField] protected TextMeshProUGUI itemText;
@@ -48,5 +48,24 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
         {
             Inventory_Controller.Instance.EquipItem(item.itemData);
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (item == null || item.itemData == null)
+        {
+            return;
+        }
+        Debug.Log(UI_ItemTooltip.Instance);
+        UI_ItemTooltip.Instance.ShowTooltip(item.itemData as ItemData_Equipment);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (item == null || item.itemData == null)
+        {
+            return;
+        }
+        UI_ItemTooltip.Instance.HideTooltip();
     }
 }

@@ -31,6 +31,7 @@ public class UI_EquipItemSlot : MonoBehaviour, IPointerDownHandler
     {
         item = null;
         itemImage.sprite = null;
+        itemImage.color = new Color32(0, 0, 0, 0);
     }
     public void OnPointerDown(PointerEventData eventData)
     {

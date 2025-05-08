@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashSkill : Skill
+public class ParrySkill : Skill
 {
     public override void UseSkill()
     {
@@ -12,5 +12,9 @@ public class DashSkill : Skill
     public override void OnUnlockedSkill(string _modifyName)
     {
         base.OnUnlockedSkill(_modifyName);
+        if (_modifyName != null)
+        {
+            return;
+        }
     }
 }

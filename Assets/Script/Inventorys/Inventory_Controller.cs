@@ -1,11 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 
-public class Inventory_Controller : MonoBehaviour
+public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
 {
     private static Inventory_Controller instance;
     public static Inventory_Controller Instance { get => instance; }
+
+    public int currency;
+    [Space]
 
     [SerializeField] private List<InventoryItem> inventory;
     [SerializeField] private Dictionary<ItemData, InventoryItem> inventoryDictionary;
@@ -18,6 +23,7 @@ public class Inventory_Controller : MonoBehaviour
     [SerializeField] private Transform equipmentSlotParent;
     [SerializeField] private Transform statSlotParent;
 
+    private List<ItemData> itemDatabase;
     private UI_ItemSlot[] itemSlot;
     private UI_EquipItemSlot[] equipmentSlot;
     private UI_StatSlot[] statSlot;
@@ -46,51 +52,69 @@ public class Inventory_Controller : MonoBehaviour
         statSlot = statSlotParent.GetComponentsInChildren<UI_StatSlot>();
     }
 
+    public bool CanBuy(int _price)
+    {
+        if (_price > currency)
+        {
+            return false;
+        }
+        currency -= _price;
+        return true;
+    }
+
     private void UpdateInventoryUI()
     {
-        for (int i = 0; i < equipmentSlot.Length; i++)
+        foreach (var slot in equipmentSlot)
         {
-            equipmentSlot[i].CleanUpEquipSlot();
-        }
-        for (int i = 0; i < equipmentSlot.Length; i++)
-        {
-            foreach (KeyValuePair<ItemData_Equipment, InventoryItem> item in equipmentDictionary)
+            slot.CleanUpEquipSlot();
+
+            foreach (var kvp in equipmentDictionary)
             {
-                if (item.Key.equipmentType == equipmentSlot[i].equipmentType)
+                if (kvp.Key.equipmentType == slot.equipmentType)
                 {
-                    equipmentSlot[i].UpdateEquipSlot(item.Value);
+                    slot.UpdateEquipSlot(kvp.Value);
+                    break;
                 }
             }
         }
 
-        for (int i = 0; i < itemSlot.Length; i++)
+        int displayItemCount = Mathf.Min(inventory.Count, itemSlot.Length);
+
+        foreach (var slot in itemSlot)
         {
-            itemSlot[i].CleanUpSlot();
+            slot.CleanUpSlot();
         }
 
-        for (int i = 0; i < inventory.Count; i++)
+        for (int i = 0; i < displayItemCount; i++)
         {
             itemSlot[i].UpdateSlot(inventory[i]);
         }
 
-        for (int i = 0; i < statSlot.Length; i++)
+        foreach (var stat in statSlot)
         {
-            statSlot[i].UpdateStatValue();
+            stat.UpdateStatValue();
         }
     }
 
-    public void AddItem(ItemData _item)
+    public void AddItem(ItemData _item, int amount = 1)
     {
-        if (inventoryDictionary.TryGetValue(_item, out InventoryItem value))
+        if (_item == null || amount <= 0)
+            return;
+
+        if (inventoryDictionary.TryGetValue(_item, out InventoryItem existingItem))
         {
-            value.AddStack();
+            existingItem.stackSize += amount;
         }
         else
         {
-            var newItem = new InventoryItem(_item);
+            InventoryItem newItem = new InventoryItem(_item)
+            {
+                stackSize = amount
+            };
             inventory.Add(newItem);
             inventoryDictionary.Add(_item, newItem);
         }
+
         UpdateInventoryUI();
     }
 
@@ -111,30 +135,39 @@ public class Inventory_Controller : MonoBehaviour
         UpdateInventoryUI();
     }
 
-    public void EquipItem(ItemData _item)
+    public void EquipItem(ItemData _item, string _ = "")
     {
         if (_item == null)
         {
-            Debug.LogError("EquipItem is NULL");
+            Debug.LogError("Equip Item is NULL");
             return;
         }
 
-        var newEquipItem = _item as ItemData_Equipment;
-        var newItem = new InventoryItem(newEquipItem);
+        if (_item is not ItemData_Equipment newEquipItem)
+        {
+            Debug.LogError("Item is not an equipment type!");
+            return;
+        }
+
         ItemData_Equipment itemToUnequip = null;
 
-        foreach (var item in equipmentDictionary)
+        foreach (var equippedItem in equipmentDictionary.Keys)
         {
-            if (item.Key.equipmentType == newEquipItem.equipmentType)
+            if (equippedItem.equipmentType == newEquipItem.equipmentType)
             {
-                itemToUnequip = item.Key;
+                itemToUnequip = equippedItem;
+                break; 
             }
         }
 
-        UnequipItem(itemToUnequip);
+        if (itemToUnequip != null)
+        {
+            UnequipItem(itemToUnequip);
+        }
 
+        var newItem = new InventoryItem(newEquipItem);
         equipment.Add(newItem);
-        equipmentDictionary.Add(newEquipItem, newItem);
+        equipmentDictionary[newEquipItem] = newItem;
         newEquipItem.AddModifiers();
 
         RemoveItem(_item);
@@ -143,17 +176,20 @@ public class Inventory_Controller : MonoBehaviour
 
     public void UnequipItem(ItemData_Equipment itemToUnequip)
     {
-        if (itemToUnequip != null)
+        if (itemToUnequip == null)
         {
-            AddItem(itemToUnequip);
-            if (equipmentDictionary.TryGetValue(itemToUnequip, out InventoryItem value))
-            {
-                equipment.Remove(value);
-                equipmentDictionary.Remove(itemToUnequip);
-                itemToUnequip.RemoveModifiers();
-            }
-            UpdateInventoryUI();
+            Debug.LogWarning("Cannot Unequip: item null");
+            return;
         }
+
+        if (equipmentDictionary.TryGetValue(itemToUnequip, out InventoryItem equippedItem))
+        {
+            itemToUnequip.RemoveModifiers();
+            equipment.Remove(equippedItem);
+            equipmentDictionary.Remove(itemToUnequip);
+        }
+        AddItem(itemToUnequip);
+        UpdateInventoryUI();
     }
 
     public void LoseAllItems()
@@ -171,7 +207,7 @@ public class Inventory_Controller : MonoBehaviour
         inventoryDictionary.Clear();
     }
 
-     public ItemData_Equipment GetEquipment(EquipmentType type)
+    public ItemData_Equipment GetEquipment(EquipmentType type)
     {
         ItemData_Equipment equipedItem = null;
         foreach (var item in equipmentDictionary)
@@ -188,10 +224,89 @@ public class Inventory_Controller : MonoBehaviour
     {
         var playerTransfrom = Player_Manager.Instance.Player.transform;
         var instantiateDrop = Instantiate(dropPrefab, playerTransfrom.position, Quaternion.identity);
-        int xRandomRange = Random.Range(-5, 5);
-        int yRandomRange = Random.Range(10, 15);
-        Vector2 randomVelocity = new Vector2(xRandomRange, yRandomRange);
+        int xRandomRange = UnityEngine.Random.Range(-5, 5);
+        int yRandomRange = UnityEngine.Random.Range(10, 15);
+        var randomVelocity = new Vector2(xRandomRange, yRandomRange);
         instantiateDrop.GetComponent<ItemObject>().SetupItem(_itemData, randomVelocity);
     }
 
+    public void LoadGame(GameData _data)
+    {
+        currency = _data.currency;
+        Dictionary<string, ItemData> itemLookup = GetItemDatabase()
+            .Where(item => item != null && !string.IsNullOrEmpty(item.itemID))
+            .ToDictionary(item => item.itemID, item => item);
+
+        LoadInventory(_data, itemLookup);
+        LoadEquipment(_data, itemLookup);
+    }
+
+    private void LoadEquipment(GameData _data, Dictionary<string, ItemData> itemLookup)
+    {
+        foreach (string itemID in _data.equipment)
+        {
+            if (itemLookup.TryGetValue(itemID, out ItemData itemData))
+            {
+                if (itemData is ItemData_Equipment equipmentItem)
+                {
+                    EquipItem(equipmentItem);
+                }
+                else
+                {
+                    Debug.LogWarning($"Item {itemID} is not equipment.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Cannot Found Equipment Item With ID: {itemID}");
+            }
+        }
+    }
+
+    private void LoadInventory(GameData _data, Dictionary<string, ItemData> itemLookup)
+    {
+        foreach (var item in _data.inventory)
+        {
+            if (itemLookup.TryGetValue(item.Key, out ItemData itemData))
+            {
+                AddItem(itemData, item.Value);
+            }
+            else
+            {
+                Debug.LogWarning($"Cannot Found Item With ID: {item.Key}");
+            }
+        }
+    }
+
+    public void SaveGame(ref GameData _data)
+    {
+        _data.inventory.Clear();
+        _data.equipment.Clear();
+
+        foreach (var item in inventoryDictionary)
+        {
+            _data.inventory[item.Key.itemID] = item.Value.stackSize;
+        }
+
+        foreach (var equipmentItem in equipmentDictionary)
+        {
+            _data.equipment.Add(equipmentItem.Key.itemID);
+        }
+
+        _data.currency = currency;
+    }
+
+    private List<ItemData> GetItemDatabase()
+    {
+        itemDatabase = new();
+        var assetNames = AssetDatabase.FindAssets("", new[] { "Assets/Resources/Items" });
+
+        foreach(var SOname in assetNames)
+        {
+            var SOpath = AssetDatabase.GUIDToAssetPath(SOname);
+            var itemData = AssetDatabase.LoadAssetAtPath<ItemData>(SOpath);
+            itemDatabase.Add(itemData);
+        }
+        return itemDatabase;
+    }
 }

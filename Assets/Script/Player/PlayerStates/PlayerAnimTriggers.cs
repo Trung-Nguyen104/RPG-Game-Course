@@ -21,7 +21,7 @@ public class PlayerAnimTriggers : MonoBehaviour
                 var enemyTarget = hit.GetComponent<Entity_Stats>();
                 var weaponData = Inventory_Controller.Instance.GetEquipment(EquipmentType.Weapon);
 
-                if (enemy.CanBeStun())
+                if (enemy.CanBeStun() && Skill_Manager.Instance.Parry.skill_Unlocked)
                 {
                     enemy.beCountered = true;
                 }
@@ -38,6 +38,6 @@ public class PlayerAnimTriggers : MonoBehaviour
 
     private void ThrowSword()
     {
-        SkillManager.Instance.throwSword.CreateSword();
+        Skill_Manager.Instance.ThrowSword.CreateSword();
     }
 }

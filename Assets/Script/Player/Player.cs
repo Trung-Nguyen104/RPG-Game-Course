@@ -14,7 +14,7 @@ public class Player : Entity_Behavior
     [SerializeField] public Vector2[] attackMovement;
 
     public float dashDir { get; private set; }
-    public SkillManager skillManager { get; private set; }
+    public Skill_Manager skillManager { get; private set; }
     public bool canCreateNewSword { get; private set; }
     public bool isBusy { get; set; }
 
@@ -58,7 +58,7 @@ public class Player : Entity_Behavior
     {
         base.Start();
         playerStateMachine.Initialize(idleState);
-        skillManager = SkillManager.Instance;
+        skillManager = Skill_Manager.Instance;
     }
 
     protected override void Update()
@@ -81,7 +81,11 @@ public class Player : Entity_Behavior
 
     private void OnDash()
     {
-        if (Inputs.Instance.GetInputDown(InputAction.Dash) && skillManager.dash.CanUseSkill() && !isBusy)
+        if (!skillManager.Dash.skill_Unlocked)
+        {
+            return;
+        }
+        if (Inputs.Instance.GetInputDown(InputAction.Dash) && skillManager.Dash.CanUseSkill() && !isBusy)
         {
             dashDir = Inputs.Instance.GetHorizontal();
             if (dashDir == 0)
