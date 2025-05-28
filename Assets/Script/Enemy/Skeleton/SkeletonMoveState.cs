@@ -21,7 +21,7 @@ public class SkeletonMoveState : SkeletonGroundState
         if (skeleton.WallDetected() || !skeleton.GroundDetected())
         {
             skeleton.Flip();
-            stateMachine.ChangeState(skeleton.idleState);
+            stateMachine.ChangeState(skeleton.IdleState);
         }
     }
 }

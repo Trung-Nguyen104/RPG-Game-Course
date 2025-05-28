@@ -32,8 +32,7 @@ public class SkeletonSawPlayerState : EnemyState
 
     private void CheckPlayerPosition()
     {
-        if (player.wasDead)
-        { return; }
+        if (player.wasDead) { return; }
 
         if (player.transform.position.x > skeleton.transform.position.x)
         { moveDir = 1; }
@@ -45,13 +44,13 @@ public class SkeletonSawPlayerState : EnemyState
     {
         if (!skeleton.PlayerDetected())
         {
-            stateMachine.ChangeState(skeleton.moveState);
+            stateMachine.ChangeState(skeleton.MoveState);
         }
         else if (skeleton.PlayerDetected())
         {
             if (skeleton.PlayerDetected().distance < skeleton.attackPlayerDistance)
             {
-                stateMachine.ChangeState(skeleton.attackState);
+                stateMachine.ChangeState(skeleton.AttackState);
             }
         }
     }

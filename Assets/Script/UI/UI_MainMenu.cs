@@ -11,7 +11,7 @@ public class UI_MainMenu : MonoBehaviour
 
     private void Start()
     {
-        if (!SaveLoad_Manager.instance.GetSavedData())
+        if (!SaveLoadManager.Instance.GetSavedData())
         {
             continueBtn.gameObject.SetActive(false);
         }
@@ -19,17 +19,24 @@ public class UI_MainMenu : MonoBehaviour
 
     public void Continue()
     {
-        SceneManager.LoadScene(sceneName);
+        StartCoroutine(LoadSceneAfter(1.5f));
     }
 
     public void Play()
     {
-        SaveLoad_Manager.instance.DeleteSavedData();
-        SceneManager.LoadScene(sceneName);
+        SaveLoadManager.Instance.DeleteSavedData();
+        StartCoroutine(LoadSceneAfter(1.5f));
     }
 
     public void Quit()
     {
         Application.Quit();
+    }
+
+    private IEnumerator LoadSceneAfter(float _second)
+    {
+        UI_FadeSrceen.Instance.FadeOut();
+        yield return new WaitForSeconds(_second);
+        SceneManager.LoadScene(sceneName);
     }
 }

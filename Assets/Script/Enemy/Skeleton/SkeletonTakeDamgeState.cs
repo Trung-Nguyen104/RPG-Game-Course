@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class SkeletonTakeDamgeState : EnemyState
 {
     SkeletonEnemy skeleton;
@@ -20,6 +22,6 @@ public class SkeletonTakeDamgeState : EnemyState
     public override void Update()
     {
         base.Update();
-        stateMachine.ChangeState(skeleton.sawPlayerState);
+        stateMachine.ChangeState(skeleton.SawPlayerState);
     }
 }

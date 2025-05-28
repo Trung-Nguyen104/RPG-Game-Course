@@ -24,12 +24,12 @@ public class PlayerJumpState : PlayerState
         base.Update();
         
         if (rb.velocity.y < 0)
-            playerStateMachine.ChangeState(player.airState);
+            playerStateMachine.ChangeState(player.AirState);
 
         if(player.WallDetected())
-            playerStateMachine.ChangeState(player.wallSlideState);
+            playerStateMachine.ChangeState(player.WallSlideState);
 
         if (Inputs.Instance.GetInputDown(InputAction.Ultimate) && Skill_Manager.Instance.Ultimate.skill_Unlocked)
-            playerStateMachine.ChangeState(player.ultimateState);
+            playerStateMachine.ChangeState(player.UltimateState);
     }
 }

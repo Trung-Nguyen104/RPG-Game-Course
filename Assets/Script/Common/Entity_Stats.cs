@@ -58,13 +58,13 @@ public class Entity_Stats : MonoBehaviour
     private float shockDuration = 1.5f;
     private float shockTimer;
 
-    private EntityFX fx;
+    private FxManager fx;
 
     protected virtual void Start()
     {
         currHP = GetMaxHealth();
         criticalDamage.SetDefaultValue(150);
-        fx = GetComponent<EntityFX>();
+        fx = GetComponent<FxManager>();
     }
 
     protected virtual void Update()
@@ -85,17 +85,32 @@ public class Entity_Stats : MonoBehaviour
 
     public virtual void HandleDamage(Entity_Stats _targetStats)
     {
-        var totalDamage = 0;
+        var baseDamge = 0;
+
+        HandleDamgeDir(_targetStats);
+
         if (!CheckCanAvoid(_targetStats))
         {
-            totalDamage = physicDamage.GetValue() + strength.GetValue();
-            totalDamage = HandleArmor(totalDamage);
+            baseDamge = physicDamage.GetValue() + strength.GetValue();
+            baseDamge = HandleArmor(baseDamge);
         }
         if (CheckCanCritical())
         {
-            totalDamage = HandleCriticalDamage(totalDamage);
+            baseDamge = HandleCriticalDamage(baseDamge);
         }
-        _targetStats.TakeDamageHP(totalDamage, _targetStats);
+        _targetStats.TakeDamageHP(baseDamge, _targetStats);
+    }
+
+    private void HandleDamgeDir(Entity_Stats _targetStats)
+    {
+        if (_targetStats.TryGetComponent<Entity_Behavior>(out var _target))
+        {
+            var directionToSource = transform.position.x - _target.transform.position.x;
+            if (directionToSource * _target.facingDir > 0)
+            {
+                _target.Flip();
+            }
+        }
     }
 
     public virtual void HandleMagicalDamage(Entity_Stats _targetStats)
@@ -113,7 +128,7 @@ public class Entity_Stats : MonoBehaviour
     public virtual void TakeDamageHP(int _damage, Entity_Stats _targetStats)
     {
         DecreaseHealth(_damage, _targetStats);
-
+        
         if (currHP <= 0)
         {
             HandleDie();

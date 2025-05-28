@@ -38,7 +38,7 @@ public class UI_SkillTreeSlot : MonoBehaviour
 
     public void SkillUnclockCheck()
     {
-        if (!Inventory_Controller.Instance.CanBuy(skillPrice))
+        if (!Skill_Manager.Instance.CanBuy(skillPrice))
         {
             return;
         }

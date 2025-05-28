@@ -22,10 +22,10 @@ public class PlayerAirState : PlayerState
     {
         base.Update();
         if (player.GroundDetected())
-            playerStateMachine.ChangeState(player.idleState);
+            playerStateMachine.ChangeState(player.IdleState);
 
         if (player.WallDetected())
-            playerStateMachine.ChangeState(player.wallSlideState);
+            playerStateMachine.ChangeState(player.WallSlideState);
 
     }
 }

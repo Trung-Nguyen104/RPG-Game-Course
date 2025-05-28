@@ -14,7 +14,7 @@ public class PlayerAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.isBusy = true;
+        player.IsBusy = true;
         if ( comboCounter > 2 || Time.time >= lastTimerAttacked + comboTimer)
             comboCounter = 0;
          
@@ -34,6 +34,6 @@ public class PlayerAttackState : PlayerState
     {
         base.Update();
         if (animCalledTrigger)
-            playerStateMachine.ChangeState(player.idleState);
+            playerStateMachine.ChangeState(player.IdleState);
     }
 }

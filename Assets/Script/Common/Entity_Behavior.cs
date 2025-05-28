@@ -27,7 +27,7 @@ public class Entity_Behavior : MonoBehaviour
     #region Component
     public Animator animator { get; private set; }
     public Rigidbody2D rb { get; private set; }
-    public EntityFX fx { get; private set; }
+    public FxManager fx { get; private set; }
     public SpriteRenderer sr { get; private set; }
     public Entity_Stats EntityStats { get; private set; }
     public Collider2D cd2D { get; private set; }
@@ -47,7 +47,7 @@ public class Entity_Behavior : MonoBehaviour
         slider = GetComponentInChildren<Slider>();
         EntityStats = GetComponent<Entity_Stats>();
         rb = GetComponent<Rigidbody2D>();
-        fx = GetComponent<EntityFX>();
+        fx = GetComponent<FxManager>();
     }
 
     protected virtual void Update()
@@ -57,13 +57,15 @@ public class Entity_Behavior : MonoBehaviour
 
     public virtual void TakeDamageEffect()
     {
-        StartCoroutine("KnockBack");
+        StartCoroutine(nameof(KnockBack));
     }
 
     public virtual void SetVelocity(float _xVelocity, float _yVelocity)
     {
         if (isTakeDamged)
+        {
             return;
+        }
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }

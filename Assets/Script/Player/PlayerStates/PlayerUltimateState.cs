@@ -28,7 +28,7 @@ public class PlayerUltimateState : PlayerState
     public override void Update()
     {
         base.Update();
-        player.isBusy = true;
+        player.IsBusy = true;
         if(timerState > 0)
         {
             player.SetVelocity(0, 5f);

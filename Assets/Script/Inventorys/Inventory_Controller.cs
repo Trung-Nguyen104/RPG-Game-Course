@@ -10,9 +10,6 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
     private static Inventory_Controller instance;
     public static Inventory_Controller Instance { get => instance; }
 
-    public int currency;
-    public TextMeshProUGUI textCurrency;
-
     [Space]
 
     [SerializeField] private List<InventoryItem> inventory;
@@ -42,10 +39,6 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
             Inventory_Controller.instance = this;
         }
 
-    }
-
-    private void Start()
-    {
         inventory = new List<InventoryItem>();
         inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
         equipment = new List<InventoryItem>();
@@ -53,16 +46,6 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
         itemSlot = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         equipmentSlot = equipmentSlotParent.GetComponentsInChildren<UI_EquipItemSlot>();
         statSlot = statSlotParent.GetComponentsInChildren<UI_StatSlot>();
-    }
-
-    public bool CanBuy(int _price)
-    {
-        if (_price > currency)
-        {
-            return false;
-        }
-        currency -= _price;
-        return true;
     }
 
     private void UpdateInventoryUI()
@@ -104,13 +87,13 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
         if (_item == null || amount <= 0)
             return;
 
-        if (inventoryDictionary.TryGetValue(_item, out InventoryItem existingItem))
+        if (inventoryDictionary.TryGetValue(_item, out var existingItem))
         {
             existingItem.stackSize += amount;
         }
         else
         {
-            InventoryItem newItem = new InventoryItem(_item)
+            var newItem = new InventoryItem(_item)
             {
                 stackSize = amount
             };
@@ -159,7 +142,7 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
             if (equippedItem.equipmentType == newEquipItem.equipmentType)
             {
                 itemToUnequip = equippedItem;
-                break; 
+                break;
             }
         }
 
@@ -197,16 +180,24 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
 
     public void LoseAllItems()
     {
-        foreach (InventoryItem item in inventory)
+        foreach (var item in inventory)
         {
-            if (item == null)
+            if (item != null)
             {
-                return;
+                DropItem(item.itemData);
             }
-            DropItem(item.itemData);
+        }
+        foreach (var equipment in equipment)
+        {
+            if (equipment != null)
+            {
+                DropItem(equipment.itemData);
+            }
         }
 
         inventory.Clear();
+        equipment.Clear();
+        equipmentDictionary.Clear();
         inventoryDictionary.Clear();
     }
 
@@ -235,7 +226,6 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
 
     public void LoadGame(GameData _data)
     {
-        currency = _data.currency;
         Dictionary<string, ItemData> itemLookup = GetItemDatabase()
             .Where(item => item != null && !string.IsNullOrEmpty(item.itemID))
             .ToDictionary(item => item.itemID, item => item);
@@ -295,8 +285,6 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
         {
             _data.equipment.Add(equipmentItem.Key.itemID);
         }
-
-        _data.currency = currency;
     }
 
     private List<ItemData> GetItemDatabase()
@@ -304,7 +292,7 @@ public class Inventory_Controller : MonoBehaviour, ISaveLoadManager
         itemDatabase = new();
         var assetNames = AssetDatabase.FindAssets("", new[] { "Assets/Resources/Items" });
 
-        foreach(var SOname in assetNames)
+        foreach (var SOname in assetNames)
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOname);
             var itemData = AssetDatabase.LoadAssetAtPath<ItemData>(SOpath);

@@ -63,7 +63,7 @@ public class UltimateSkillController : MonoBehaviour
         if (canShrink)
         {
             transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(-1, -1), (growSpeed + 2) * Time.deltaTime);
-            player.playerStateMachine.ChangeState(player.airState);
+            player.PlayerStateMachine.ChangeState(player.AirState);
             player.SetTransprent(false);
             if (transform.localScale.x < 0f)
             {

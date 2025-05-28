@@ -25,13 +25,13 @@ public class SkeletonStunState : EnemyState
     {
         base.Update();
         if (stateTimer < 0)
-            stateMachine.ChangeState(skeleton.idleState);
+            stateMachine.ChangeState(skeleton.IdleState);
     }
 
     private void HandleStunKnockBack()
     {
-        var knockBackForce = skeleton.knockBackForce + Random.Range(0.5f, 1.5f);
+        var stunForce = skeleton.knockBackForce + Random.Range(0.3f, 1f);
         enemy.fx.InvokeRepeating("StunEffect", 0, .1f);
-        rb.AddForce(new Vector2(1 * -skeleton.facingDir, 1) * knockBackForce, ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(1 * -skeleton.facingDir, 1) * stunForce, ForceMode2D.Impulse);
     }
 }

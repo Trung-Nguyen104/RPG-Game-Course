@@ -25,7 +25,7 @@ public class SkeletonGroundState : EnemyState
         base.Update();
         if (enemy.PlayerDetected() || Vector3.Distance(skeleton.transform.position, playerTransform.position) < 2f)
         {
-            stateMachine.ChangeState(skeleton.sawPlayerState);
+            stateMachine.ChangeState(skeleton.SawPlayerState);
         }
     }
 }

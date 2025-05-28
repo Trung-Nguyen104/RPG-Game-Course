@@ -16,7 +16,7 @@ public class SwordSkillController : MonoBehaviour
     private int pierceAmount;
     private int targetIndex = 0;
     private float bounceSpeed;
-    public int swordDamage { get; set; }
+    public int SwordDamage { get; set; }
 
 
     private void Awake()
@@ -46,8 +46,7 @@ public class SwordSkillController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var enemyCollision = collision.GetComponent<Enemy>();
-        if (enemyCollision != null)
+        if (collision.TryGetComponent<Enemy>(out var enemyCollision))
         {
             player.EntityStats.HandleMagicalDamage(enemyCollision.EntityStats);
             if(isSwordBounce)
@@ -69,7 +68,7 @@ public class SwordSkillController : MonoBehaviour
         this.bounceAmount = _amountOfBounce;
         this.bounceSpeed = _bounceSpeed;
         this.isSwordBounce = _canBounce;
-        this.swordDamage = _swordDamage;
+        this.SwordDamage = _swordDamage;
         enemyTarget = new();
         SwordAnimationHandle(true);
     }
@@ -118,7 +117,7 @@ public class SwordSkillController : MonoBehaviour
     {
         this.pierceAmount = _pierceAmount;
         this.isSwordPierce = _canPierce;
-        this.swordDamage = _swordDamage;
+        this.SwordDamage = _swordDamage;
     }
 
     private void PierceSwordHandle()
@@ -134,23 +133,21 @@ public class SwordSkillController : MonoBehaviour
 
     private void StuckInToTarget(Collider2D collision)
     {
-        if (isSwordPierce)
-        { 
-            return; 
-        }
+        if (isSwordPierce || (isSwordBounce && enemyTarget.Count > 0))
+            return;
 
-        canFly = false;
-        rb.isKinematic = true;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-
-        if (isSwordBounce && enemyTarget.Count > 0)
-        { 
-            return; 
-        }
+        StopAndFreezeSword();
 
         cd2D.enabled = false;
         transform.parent = collision.transform;
         SwordAnimationHandle(false);
+    }
+
+    private void StopAndFreezeSword()
+    {
+        canFly = false;
+        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     public void SwordReturnToPlayer()
@@ -170,7 +167,7 @@ public class SwordSkillController : MonoBehaviour
             if (Vector2.Distance(transform.position, player.transform.position) < 1)
             {
                 player.CanCreateNewSword(true);
-                player.playerStateMachine.ChangeState(player.catchSwordState);
+                player.PlayerStateMachine.ChangeState(player.CatchSwordState);
                 Destroy(gameObject);
             }
         }

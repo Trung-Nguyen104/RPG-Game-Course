@@ -24,6 +24,6 @@ public class SkeletonAttackState : EnemyState
     {
         base.Update();
         if(animCalledTrigger)
-            stateMachine.ChangeState(skeleton.sawPlayerState);
+            stateMachine.ChangeState(skeleton.SawPlayerState);
     }
 }

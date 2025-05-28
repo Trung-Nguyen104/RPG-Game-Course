@@ -12,8 +12,8 @@ public class PlayerAimState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.skillManager.ThrowSword.SetActiveTrajectoryLine(true);
-        player.isBusy = true;
+        player.SkillManager.ThrowSword.SetActiveTrajectoryLine(true);
+        player.IsBusy = true;
     }
 
     public override void Exit()
@@ -27,7 +27,7 @@ public class PlayerAimState : PlayerState
         player.SetVelocity(0, rb.velocity.y);
         if (Inputs.Instance.GetInputUp(InputAction.ThorwSword))
         {
-            playerStateMachine.ChangeState(player.idleState);
+            playerStateMachine.ChangeState(player.IdleState);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum SkillTypes
@@ -14,8 +15,7 @@ public enum SkillTypes
 
 public class Skill_Manager : MonoBehaviour, ISaveLoadManager
 {
-    private static Skill_Manager instance;
-    public static Skill_Manager Instance { get => instance; }
+    public static Skill_Manager Instance {  get; private set; }
 
     public DashSkill Dash { get; private set; }
     public CreateCloneSkill CreateClone { get; private set; } 
@@ -24,21 +24,21 @@ public class Skill_Manager : MonoBehaviour, ISaveLoadManager
     public UltimateSkill Ultimate { get; private set; }
 
     public List<string> SkillNames { get; private set; }
+    public TextMeshProUGUI soulsAmountText;
+    public int souls;
+    private float soulsAmount;
+    [SerializeField] private GameObject skillTreeTab;
 
     private void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
         {
-            Destroy(instance.gameObject);
+            Destroy(Instance);
         }
         else
         {
-            Skill_Manager.instance = this;
+            Instance = this;
         }
-    }
-
-    private void Start()
-    {
         SkillNames = new();
         Dash = GetComponent<DashSkill>();
         CreateClone = GetComponent<CreateCloneSkill>();
@@ -49,9 +49,35 @@ public class Skill_Manager : MonoBehaviour, ISaveLoadManager
 
     private void Update()
     {
-        var inventory = Inventory_Controller.Instance;
-        inventory.textCurrency.text = inventory.currency.ToString("#,#");
+        if(skillTreeTab != null && skillTreeTab.activeSelf)
+        {
+            SoulsAmoutDisplay();
+        }
+        else
+        {
+            soulsAmount = 0;
+            soulsAmountText.text = soulsAmount.ToString();
+        }
     }
+
+    private void SoulsAmoutDisplay()
+    {
+        if (soulsAmount < souls)
+        {
+            float speed = 100f + (souls - soulsAmount) * 5f; 
+            soulsAmount += Time.unscaledDeltaTime * speed;
+
+            if (soulsAmount > souls)
+                soulsAmount = souls;
+        }
+        else
+        {
+            soulsAmount = souls;
+        }
+
+        soulsAmountText.text = ((int)soulsAmount).ToString("#,#");
+    }
+
 
     public void OnUnlockedSkill(SkillTypes _skill, string _upgradeName)
     {
@@ -78,7 +104,9 @@ public class Skill_Manager : MonoBehaviour, ISaveLoadManager
 
     public void LoadGame(GameData _data)
     {
-        foreach(var skillSaved in _data.skillBranches)
+        souls = _data.souls;
+
+        foreach (var skillSaved in _data.skillBranches)
         {
             string[] parts = skillSaved.Split('_');
             if (Enum.TryParse(parts[0], out SkillTypes _skillType))
@@ -92,9 +120,22 @@ public class Skill_Manager : MonoBehaviour, ISaveLoadManager
     public void SaveGame(ref GameData _data)
     {
         _data.skillBranches.Clear();
-        foreach(var skill in SkillNames)
+        _data.souls = souls;
+
+        foreach (var skill in SkillNames)
         {
             _data.skillBranches.Add(skill);
         }
     }
+
+    public bool CanBuy(int _price)
+    {
+        if (_price > souls)
+        {
+            return false;
+        }
+        souls -= _price;
+        return true;
+    }
+
 }

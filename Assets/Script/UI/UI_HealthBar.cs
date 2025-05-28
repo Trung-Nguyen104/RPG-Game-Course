@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class UI_HealthBar : MonoBehaviour
 {
-    private Slider uiSlider => GetComponentInChildren<Slider>();
-    private Entity_Stats entityStats => GetComponentInParent<Entity_Stats>();
-    private CanvasGroup canvasGroup => GetComponentInParent<CanvasGroup>();
+    private Slider UiSlider => GetComponentInChildren<Slider>();
+    private Entity_Stats EntityStats => GetComponentInParent<Entity_Stats>();
+    private CanvasGroup CanvasGroup => GetComponentInParent<CanvasGroup>();
 
     private float healthBarActiveDuration = 3;
     private float timer;
 
     private void Start()
     {
-        canvasGroup.alpha = 0;
-        uiSlider.maxValue = entityStats.GetMaxHealth();
-        uiSlider.value = entityStats.currHP;
+        CanvasGroup.alpha = 0;
+        UiSlider.maxValue = EntityStats.GetMaxHealth();
+        UiSlider.value = EntityStats.currHP;
     }
 
     private void Update()
@@ -38,21 +38,21 @@ public class UI_HealthBar : MonoBehaviour
 
     private void UpdateHealthBar(object _targetStats)
     {
-        if (entityStats != (Entity_Stats)_targetStats)
+        if (EntityStats != (Entity_Stats)_targetStats)
         {
             return;
         }
-        uiSlider.maxValue = entityStats.GetMaxHealth();
-        uiSlider.value = entityStats.currHP;
+        UiSlider.maxValue = EntityStats.GetMaxHealth();
+        UiSlider.value = EntityStats.currHP;
     }
 
     private void HandleHealthBarActive(object _targetStats)
     {
-        if (entityStats != (Entity_Stats)_targetStats)
+        if (EntityStats != (Entity_Stats)_targetStats)
         {
             return;
         }
-        canvasGroup.alpha = 1;
+        CanvasGroup.alpha = 1;
         timer = 0;
     }
 
@@ -64,7 +64,7 @@ public class UI_HealthBar : MonoBehaviour
         }
         if (timer > healthBarActiveDuration)
         {
-            canvasGroup.alpha -= Time.deltaTime;
+            CanvasGroup.alpha -= Time.deltaTime;
         }
     }
 }

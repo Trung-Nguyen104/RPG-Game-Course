@@ -7,9 +7,9 @@ public class PlayerDashState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.isBusy = true;
+        player.IsBusy = true;
         timerState = player.dashDuration;
-        player.skillManager.CreateClone.CreateClone(player.transform, new UnityEngine.Vector3(0,0,0));
+        player.SkillManager.CreateClone.CreateClone(player.transform, new UnityEngine.Vector3(0,0,0));
     }
 
     public override void Exit()
@@ -20,11 +20,12 @@ public class PlayerDashState : PlayerState
     public override void Update()
     {
         base.Update();
-        player.SetVelocity(player.dashSpeed * player.dashDir, 0);
+        player.SetVelocity(player.dashSpeed * player.DashDir, 0);
         if (timerState < 0)
-            playerStateMachine.ChangeState(player.idleState);
+            playerStateMachine.ChangeState(player.IdleState);
 
         if (player.WallDetected())
-            playerStateMachine.ChangeState(player.wallSlideState);
+            playerStateMachine.ChangeState(player.WallSlideState);
+        player.fx.CreateAfterImage();
     }
 }

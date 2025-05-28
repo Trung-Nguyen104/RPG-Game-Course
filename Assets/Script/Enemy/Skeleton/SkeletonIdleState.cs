@@ -20,7 +20,7 @@ public class SkeletonIdleState : SkeletonGroundState
         base.Update();
         if (stateTimer < 0)
         {
-            stateMachine.ChangeState(skeleton.moveState);
+            stateMachine.ChangeState(skeleton.MoveState);
         }
     }
 }

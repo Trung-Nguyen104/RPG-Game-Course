@@ -9,9 +9,6 @@ public class SkeletonDeadState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        skeleton.animator.speed = 1;
-        skeleton.cd2D.enabled = false;
-        skeleton.rb.isKinematic = true;
     }
 
     public override void Exit()
@@ -22,6 +19,5 @@ public class SkeletonDeadState : EnemyState
     public override void Update()
     {
         base.Update();
-        skeleton.SetVelocity(0, 0);
     }
 }

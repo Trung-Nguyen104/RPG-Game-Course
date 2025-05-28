@@ -97,7 +97,7 @@ public class ThrowSwordSkill : Skill
                 PierceSwordType();
                 break;
             default:
-                swordController.swordDamage = regularDamage;
+                swordController.SwordDamage = regularDamage;
                 break;
         }
     }

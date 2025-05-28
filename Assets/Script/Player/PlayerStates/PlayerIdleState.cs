@@ -13,7 +13,7 @@ public class PlayerIdleState : PlayerGroundState
     {
         base.Enter();
         player.SetVelocity(0, rb.velocity.y);
-        player.isBusy = false;
+        player.IsBusy = false;
         
     }
 
@@ -26,7 +26,7 @@ public class PlayerIdleState : PlayerGroundState
     {
         base.Update();
         
-        if (xInput != 0 && !player.isBusy)
-            playerStateMachine.ChangeState(player.moveState);
+        if (xInput != 0 && !player.IsBusy)
+            playerStateMachine.ChangeState(player.MoveState);
     }
 }

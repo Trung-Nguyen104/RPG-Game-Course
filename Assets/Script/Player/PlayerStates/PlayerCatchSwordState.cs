@@ -12,10 +12,10 @@ public class PlayerCatchSwordState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        swordTransform = player.skillManager.ThrowSword.swordController.transform;
+        swordTransform = player.SkillManager.ThrowSword.swordController.transform;
         PlayerFlipToSword();
         timerState = .2f;
-        player.isBusy = true;
+        player.IsBusy = true;
     }
 
     public override void Exit()
@@ -28,7 +28,7 @@ public class PlayerCatchSwordState : PlayerState
         base.Update();
         player.SetVelocity(0, rb.velocity.y);
         if (timerState < 0)
-            playerStateMachine.ChangeState(player.idleState);
+            playerStateMachine.ChangeState(player.IdleState);
     }
 
     private void PlayerFlipToSword()

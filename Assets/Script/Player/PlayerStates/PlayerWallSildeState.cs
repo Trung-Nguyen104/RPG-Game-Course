@@ -25,11 +25,11 @@ public class PlayerWallSildeState : PlayerState
 
         if(!player.WallDetected() || player.GroundDetected())
         {
-            playerStateMachine.ChangeState(player.idleState);
+            playerStateMachine.ChangeState(player.IdleState);
         }
         if (Inputs.Instance.GetInputDown(InputAction.Jump) && player.WallDetected())
         {
-            playerStateMachine.ChangeState(player.wallJumpState);
+            playerStateMachine.ChangeState(player.WallJumpState);
         }
     }
 }

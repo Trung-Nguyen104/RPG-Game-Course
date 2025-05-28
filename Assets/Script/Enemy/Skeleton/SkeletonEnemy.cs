@@ -1,36 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class SkeletonEnemy : Enemy
 {
+    public override EnemyState IdleStateProperty { get; protected set; }
+
     #region States
-    public SkeletonIdleState idleState {  get; private set; }
-    public SkeletonMoveState moveState {  get; private set; }
-    public SkeletonAttackState attackState { get; private set; }
-    public SkeletonSawPlayerState sawPlayerState { get; private set; }
-    public SkeletonTakeDamgeState takeDamgeState { get; private set; }
-    public SkeletonStunState stunState { get; private set; }
-    public SkeletonDeadState deadState { get; private set; }
+    public SkeletonIdleState IdleState {  get; private set; }
+    public SkeletonMoveState MoveState {  get; private set; }
+    public SkeletonAttackState AttackState { get; private set; }
+    public SkeletonSawPlayerState SawPlayerState { get; private set; }
+    public SkeletonTakeDamgeState TakeDamgeState { get; private set; }
+    public SkeletonStunState StunState { get; private set; }
+    public SkeletonDeadState DeadState { get; private set; }
     #endregion
 
     protected override void Awake()
     {
         base.Awake();
+        IdleState = new SkeletonIdleState(this, StateMachine, "Idle", this);
+        MoveState = new SkeletonMoveState(this, StateMachine, "Move", this);
+        SawPlayerState = new SkeletonSawPlayerState(this, StateMachine, "Move", this);
+        AttackState = new SkeletonAttackState(this, StateMachine, "Attack", this);
+        TakeDamgeState = new SkeletonTakeDamgeState(this, StateMachine, "TakeDamge", this);
+        StunState = new SkeletonStunState(this, StateMachine, "Stunned", this);
+        DeadState = new SkeletonDeadState(this, StateMachine, "Dead", this);
 
-        idleState = new SkeletonIdleState(this, StateMachine, "Idle", this);
-        moveState = new SkeletonMoveState(this, StateMachine, "Move", this);
-        sawPlayerState = new SkeletonSawPlayerState(this, StateMachine, "Move", this);
-        attackState = new SkeletonAttackState(this, StateMachine, "Attack", this);
-        takeDamgeState = new SkeletonTakeDamgeState(this, StateMachine, "TakeDamge", this);
-        stunState = new SkeletonStunState(this, StateMachine, "Stunned", this);
-        deadState = new SkeletonDeadState(this, StateMachine, "Dead", this);
+        IdleStateProperty = IdleState;
     }
 
     protected override void Start()
     {
         base.Start();
-        StateMachine.Initialize(idleState);
+        StateMachine.Initialize(IdleState);
     }
 
     protected override void Update()
@@ -39,17 +43,17 @@ public class SkeletonEnemy : Enemy
         
         if(wasDead)
         {
-            StateMachine.ChangeState(deadState);
+            StateMachine.ChangeState(DeadState);
         }
         else
         {
-            //if (isTakeDamged)
-            //{
-            //    StateMachine.ChangeState(takeDamgeState);
-            //}
-            if(beCountered)
+            if (isTakeDamged)
             {
-                StateMachine.ChangeState(stunState);
+                StateMachine.ChangeState(TakeDamgeState);
+            }
+            if (beCountered)
+            {
+                StateMachine.ChangeState(StunState);
                 CloseCounterSignal();
             }
         }
@@ -58,6 +62,6 @@ public class SkeletonEnemy : Enemy
     public override void DeadEffect()
     {
         base.DeadEffect();
-        StateMachine.ChangeState(deadState);
+        StateMachine.ChangeState(DeadState);
     }
 }

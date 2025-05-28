@@ -23,27 +23,27 @@ public class PlayerGroundState : PlayerState
         base.Update();
         
         if (Inputs.Instance.GetInputDown(InputAction.PrimaryAttack))
-            playerStateMachine.ChangeState(player.attackState);
+            playerStateMachine.ChangeState(player.AttackState);
 
         if (!player.GroundDetected())
-            playerStateMachine.ChangeState(player.airState);
+            playerStateMachine.ChangeState(player.AirState);
 
-        if (Inputs.Instance.GetInputDown(InputAction.Jump) && player.GroundDetected() && !player.isBusy)
-            playerStateMachine.ChangeState(player.jumpState);
+        if (Inputs.Instance.GetInputDown(InputAction.Jump) && player.GroundDetected() && !player.IsBusy)
+            playerStateMachine.ChangeState(player.JumpState);
 
         if(Inputs.Instance.GetInputDown(InputAction.ThorwSword) && CanCreateSword() && Skill_Manager.Instance.ThrowSword.skill_Unlocked)
-            playerStateMachine.ChangeState(player.aimState);
+            playerStateMachine.ChangeState(player.AimState);
     }
 
     private bool CanCreateSword()
     {
-        if (player.canCreateNewSword)
+        if (player.CanThrowSword)
         {
             return true;
         }
         else
         {
-            player.skillManager.ThrowSword.swordController.SwordReturnToPlayer();
+            player.SkillManager.ThrowSword.swordController.SwordReturnToPlayer();
             return false;
         }
     }

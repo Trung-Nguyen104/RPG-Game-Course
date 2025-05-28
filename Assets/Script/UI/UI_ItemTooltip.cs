@@ -13,11 +13,19 @@ public class UI_ItemTooltip : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemDescription;
 
     private Canvas canvas;
-    private Vector2 offset = new Vector2(15f, -15f);
+    private Vector2 offset = new(15f, -15f);
 
     void Awake()
     {
-        Instance = this;
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(Instance);
+        }
+
         canvas = tooltipPanel.GetComponentInParent<Canvas>();
         HideTooltip();
     }
